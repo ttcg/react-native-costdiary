@@ -1,0 +1,34 @@
+[
+    {
+        "costTypeId": "e401b4e5-b3c6-4855-8846-9f83005391a7",
+        "costTypeName": "TW Food"
+    },
+    {
+        "costTypeId": "7a9e65c0-2a68-49c9-9038-1c5e033908a8",
+        "costTypeName": "TW Others"
+    },
+    {
+        "costTypeId": "7d7483a0-73d4-421c-821f-1ac8f68ad579",
+        "costTypeName": "AP"
+    },
+    {
+        "costTypeId": "55337e4b-7392-489e-a633-17bc7cf8e9db",
+        "costTypeName": "Others"
+    },
+    {
+        "costTypeId": "a10b83aa-795a-460a-b0a1-0b051871f46c",
+        "costTypeName": "Groceries"
+    },
+    {
+        "costTypeId": "4c5cedd5-c144-4225-92ff-2e472ed6c274",
+        "costTypeName": "Diesel"
+    },
+    {
+        "costTypeId": "30f4ecf3-fd76-4022-bc1b-598a7cdb6179",
+        "costTypeName": "NA"
+    },
+    {
+        "costTypeId": "a828a85d-916d-4a83-bab6-8ef5457214d4",
+        "costTypeName": "Dinner"
+    }
+]

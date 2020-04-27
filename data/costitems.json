@@ -1,0 +1,122 @@
+[
+    {
+        "costItemId": "b018bf64-d160-4aa5-a521-78b8fdadf8e6",
+        "itemName": "Sainsbury",
+        "costType": {
+            "costTypeId": "a10b83aa-795a-460a-b0a1-0b051871f46c",
+            "costTypeName": "Groceries"
+        },
+        "amount": 19.24,
+        "dateUsed": "2020-01-02T00:00:00"
+    },
+    {
+        "costItemId": "cc82c94a-d927-4afb-a8ae-e4891b2a4947",
+        "itemName": "Boots",
+        "costType": {
+            "costTypeId": "a10b83aa-795a-460a-b0a1-0b051871f46c",
+            "costTypeName": "Groceries"
+        },
+        "amount": 1.99,
+        "dateUsed": "2020-01-05T00:00:00"
+    },
+    {
+        "costItemId": "b25e8cf5-5d65-4295-9278-8720d7b0d475",
+        "itemName": "Sainsbury",
+        "costType": {
+            "costTypeId": "a10b83aa-795a-460a-b0a1-0b051871f46c",
+            "costTypeName": "Groceries"
+        },
+        "amount": 68.7,
+        "dateUsed": "2020-01-05T00:00:00"
+    },
+    {
+        "costItemId": "c22eb2a7-1b85-46db-a7ab-d435ebf3feb0",
+        "itemName": "Asda",
+        "costType": {
+            "costTypeId": "a10b83aa-795a-460a-b0a1-0b051871f46c",
+            "costTypeName": "Groceries"
+        },
+        "amount": 85.76,
+        "dateUsed": "2020-01-05T00:00:00"
+    },
+    {
+        "costItemId": "01e18e71-951d-4e3e-9d44-9f0d0f5cec5c",
+        "itemName": "London Tickets",
+        "costType": {
+            "costTypeId": "30f4ecf3-fd76-4022-bc1b-598a7cdb6179",
+            "costTypeName": "NA"
+        },
+        "amount": 11.4,
+        "dateUsed": "2020-01-07T00:00:00"
+    },
+    {
+        "costItemId": "54c6c5d1-6659-497b-af8c-f74108941c62",
+        "itemName": "Diesel",
+        "costType": {
+            "costTypeId": "4c5cedd5-c144-4225-92ff-2e472ed6c274",
+            "costTypeName": "Diesel"
+        },
+        "amount": 20.0,
+        "dateUsed": "2020-01-15T00:00:00"
+    },
+    {
+        "costItemId": "b51ab69c-60ac-432f-9028-0a812c447e44",
+        "itemName": "AP Cash",
+        "costType": {
+            "costTypeId": "7d7483a0-73d4-421c-821f-1ac8f68ad579",
+            "costTypeName": "AP"
+        },
+        "amount": 50.0,
+        "dateUsed": "2020-02-07T00:00:00"
+    },
+    {
+        "costItemId": "c63ffa0b-e848-4185-bc02-d6e488dc579f",
+        "itemName": "Samsonite Luggage",
+        "costType": {
+            "costTypeId": "55337e4b-7392-489e-a633-17bc7cf8e9db",
+            "costTypeName": "Others"
+        },
+        "amount": 100.75,
+        "dateUsed": "2020-02-10T00:00:00"
+    },
+    {
+        "costItemId": "232d3b73-ba23-4bc0-bc38-ebb85e055bd7",
+        "itemName": "Sainsbury",
+        "costType": {
+            "costTypeId": "a10b83aa-795a-460a-b0a1-0b051871f46c",
+            "costTypeName": "Groceries"
+        },
+        "amount": 19.24,
+        "dateUsed": "2020-03-27T00:00:00+00:00"
+    },
+    {
+        "costItemId": "f130ec96-9d6c-4750-b614-c67b6be694d1",
+        "itemName": "Holland & Barretts",
+        "costType": {
+            "costTypeId": "a10b83aa-795a-460a-b0a1-0b051871f46c",
+            "costTypeName": "Groceries"
+        },
+        "amount": 12.34,
+        "dateUsed": "2020-04-22T00:00:00+01:00"
+    },
+    {
+        "costItemId": "83b6478e-41af-4c16-9f15-416bc2b4954a",
+        "itemName": "Sainsbury",
+        "costType": {
+            "costTypeId": "a10b83aa-795a-460a-b0a1-0b051871f46c",
+            "costTypeName": "Groceries"
+        },
+        "amount": 35.40,
+        "dateUsed": "2020-04-26T00:00:00+01:00"
+    },
+    {
+        "costItemId": "e6614893-5fb3-45aa-ba53-a6b5ba04b72d",
+        "itemName": "Aldi",
+        "costType": {
+            "costTypeId": "a10b83aa-795a-460a-b0a1-0b051871f46c",
+            "costTypeName": "Groceries"
+        },
+        "amount": 20.25,
+        "dateUsed": "2020-04-27T00:00:00+01:00"
+    }
+]
