@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';  
+import React from 'react';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -21,6 +21,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Home"
         component={HomeScreen}
         initialParams="Home Params"
+
         options={{
           title: 'Home',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" iconType="ion" />,
@@ -29,6 +30,7 @@ export default function BottomTabNavigator({ navigation, route }) {
       <BottomTab.Screen
         name="CurrentMonth"
         component={ItemsListScreen}
+        initialParams={{ month: 4 }}
         options={{
           title: 'Current Month',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-calendar" iconType="ion" />,
@@ -37,6 +39,7 @@ export default function BottomTabNavigator({ navigation, route }) {
       <BottomTab.Screen
         name="PrevMonth"
         component={ItemsListScreen}
+        initialParams={{ month: 3 }}
         options={{
           title: 'Previous Month',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="page-previous-outline" iconType="material" />,
@@ -62,8 +65,8 @@ function getHeaderTitle(route) {
       return 'Current Month';
     case 'PrevMonth':
       return 'Previous Month';
-      case 'AddNew':
-        return 'Add New Item';
+    case 'AddNew':
+      return 'Add New Item';
     default:
       return routeName;
   }

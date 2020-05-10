@@ -9,6 +9,7 @@ import { Header } from 'react-native-elements';
 
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
+import ItemDetailScreen from './screens/ItemDetailScreen'
 
 const Stack = createStackNavigator();
 
@@ -54,6 +55,7 @@ export default function App(props) {
         <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
           <Stack.Navigator>
             <Stack.Screen name="Root" component={BottomTabNavigator} />
+            <Stack.Screen name="ItemDetail" component={ItemDetailScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
