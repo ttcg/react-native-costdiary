@@ -32,11 +32,6 @@ const Item = ({ item, onPress }) => {
         rightTitleStyle={styles.amountStyle}
         rightSubtitle={moment(item.dateUsed).format("MMM DD")}        
         bottomDivider
-        linearGradientProps={{
-          colors: ['#d5deef', '#c5d8fa'],
-          start: { x: 1, y: 0 },
-          end: { x: 0.2, y: 0 },
-        }}
       />
     </TouchableOpacity>
   );

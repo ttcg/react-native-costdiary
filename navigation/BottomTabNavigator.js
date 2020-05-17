@@ -5,6 +5,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import ItemsListScreen from '../screens/ItemsListScreen';
 import AddNewScreen from '../screens/AddNewScreen';
+import SummaryScreen from '../screens/SummaryScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -51,6 +52,14 @@ export default function BottomTabNavigator({ navigation, route }) {
         options={{
           title: 'Add',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-add-circle" iconType="ion" />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Summary"
+        component={SummaryScreen}
+        options={{
+          title: 'Summary',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="format-list-numbered" iconType="material" />,
         }}
       />
     </BottomTab.Navigator>

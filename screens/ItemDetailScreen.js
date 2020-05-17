@@ -4,18 +4,18 @@ import moment from "moment";
 import { Button, Divider } from 'react-native-elements';
 
 const ItemDetailScreen = ({ route }) => {
-	//const {item} = route.params;
+	const {item} = route.params;
 
-	var item = {
-		"costItemId": "b018bf64-d160-4aa5-a521-78b8fdadf8e6",
-		"itemName": "Sainsbury",
-		"costType": {
-			"costTypeId": "a10b83aa-795a-460a-b0a1-0b051871f46c",
-			"costTypeName": "Groceries"
-		},
-		"amount": 19.24,
-		"dateUsed": "2020-01-02T00:00:00"
-	}
+	// var item = {
+	// 	"costItemId": "b018bf64-d160-4aa5-a521-78b8fdadf8e6",
+	// 	"itemName": "Sainsbury",
+	// 	"costType": {
+	// 		"costTypeId": "a10b83aa-795a-460a-b0a1-0b051871f46c",
+	// 		"costTypeName": "Groceries"
+	// 	},
+	// 	"amount": 19.24,
+	// 	"dateUsed": "2020-01-02T00:00:00"
+	// }
 
 	const LineDetail = ({ label, text, showDivider = true }) => {
 		return (
