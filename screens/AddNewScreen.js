@@ -9,6 +9,7 @@ import { TextField } from "react-native-material-textfield";
 import { Dropdown } from 'react-native-material-dropdown';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
+import Enumerable from 'linq';
 
 import data from '../data/costtypes.json';
 
@@ -33,9 +34,12 @@ const AddNewScreen = () => {
     setFieldValue('dateUsed', moment(date).format("YYYY-MM-DD"));
   };
 
-  const costTypeData = data.map(v => ({ value: v.costTypeId, label: v.costTypeName })).sort(function (a, b) {
-    return a.label > b.label ? 1 : -1;
-  })
+  const costTypeData = Enumerable.from(data)
+    .select(x => ({ value: x.costTypeId, label: x.costTypeName }))
+    .orderBy(x => x.label)
+    .toArray();
+
+  console.log(costTypeData)
 
   const initialValues = {
     costItemId: 'a10b83aa-795a-460a-b0a1-0b051871f46d', /// TODO: replace with actual Guid generator library
@@ -116,7 +120,7 @@ const AddNewScreen = () => {
               title="Submit"
               onPress={handleSubmit}
               loadingProps={{ size: "large", color: "white" }}
-            />            
+            />
           </View>
 
         )}
