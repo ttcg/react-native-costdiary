@@ -5,22 +5,26 @@ import data from '../data/costitems.json';
 import costTypeData from '../data/costtypes.json';
 import Enumerable from 'linq';
 
-const SummaryScreen = ({ route }) => {
+const SummaryScreen = ({ route, navigation }) => {
 
 	console.log(route)
-	const onPress = (item) => console.log(item)
 
-	// Array.prototype.sum = function(propertySelector = obj => obj) {
-	// 	const intialValue = 0;
-	// 	return this.reduce((sum, obj) => sum + propertySelector(obj), intialValue);
-	//   };
+	const onPress = (costTypeName) => { 
+		let filteredData = Enumerable.from(data)
+					.where(x => x.costType.costTypeId == getCostTypeId(costTypeName))
+					.toArray();
+		console.log(filteredData)
+
+		navigation.navigate('SummaryItemsListScreen', { data: filteredData })
+	}
 
 	const getSubTotal = costTypeName => {
-		let costTypeId = Enumerable.from(costTypeData).single(x => x.costTypeName === costTypeName).costTypeId;
 		return Enumerable.from(data)
-			.where(x => x.costType.costTypeId == costTypeId)
+			.where(x => x.costType.costTypeId == getCostTypeId(costTypeName))
 			.sum(x => x.amount);
 	}
+
+	const getCostTypeId = costTypeName => Enumerable.from(costTypeData).single(x => x.costTypeName === costTypeName).costTypeId;
 
 	const getTotal = () => {
 		return Enumerable.from(data)

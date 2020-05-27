@@ -9,7 +9,9 @@ import { Header } from 'react-native-elements';
 
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
-import ItemDetailScreen from './screens/ItemDetailScreen'
+import ItemDetailScreen from './screens/ItemDetailScreen';
+import AddNewScreen from './screens/AddNewScreen';
+import SummaryItemsListScreen from './screens/SummaryItemsListScreen';
 
 const Stack = createStackNavigator();
 
@@ -56,6 +58,8 @@ export default function App(props) {
           <Stack.Navigator>
             <Stack.Screen name="Root" component={BottomTabNavigator} />
             <Stack.Screen name="ItemDetail" component={ItemDetailScreen} />
+            <Stack.Screen name="SummaryItemsListScreen" component={SummaryItemsListScreen} />
+            <Stack.Screen name="AddNew" component={AddNewScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

@@ -4,7 +4,7 @@ import moment from "moment";
 import { Button, Divider } from 'react-native-elements';
 
 const ItemDetailScreen = ({ route }) => {
-	const {item} = route.params;
+	const { item } = route.params;
 
 	// var item = {
 	// 	"costItemId": "b018bf64-d160-4aa5-a521-78b8fdadf8e6",
@@ -51,7 +51,7 @@ export default ItemDetailScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		
+
 	},
 	contentContainer: {
 		backgroundColor: '#fafafa',

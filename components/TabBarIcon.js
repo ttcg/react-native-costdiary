@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 
-export default function TabBarIcon(props) {
+const TabBarIcon = (props) => {
 
   const { name, focused, iconType } = props;
 
@@ -28,3 +28,5 @@ export default function TabBarIcon(props) {
     </>
   );
 }
+
+export default TabBarIcon;
