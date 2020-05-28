@@ -1,7 +1,5 @@
 import React from 'react';
 import { FlatList, StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
-import { ListItem } from 'react-native-elements'
-import moment from "moment";
 
 import data from '../data/costitems.json';
 import ItemList from '../components/ItemList'

@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
+import { FlatList, StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -51,6 +52,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         options={{
           title: 'Add',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-add-circle" iconType="ion" />,
+          tabBarButton: (props) => (<TouchableOpacity  {...props} onPress={()=> navigation.navigate('AddNew')} />)
         }}
       />
       <BottomTab.Screen

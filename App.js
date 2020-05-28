@@ -16,73 +16,70 @@ import SummaryItemsListScreen from './screens/SummaryItemsListScreen';
 const Stack = createStackNavigator();
 
 export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
-  const [initialNavigationState, setInitialNavigationState] = useState();
-  const containerRef = useRef();
-  const { getInitialState } = useLinking(containerRef);
+    const [isLoadingComplete, setLoadingComplete] = useState(false);
+    const [initialNavigationState, setInitialNavigationState] = useState();
+    const containerRef = useRef();
+    const { getInitialState } = useLinking(containerRef);
 
-  // Load any resources or data that we need prior to rendering the app
-  useEffect(() => {
-    async function loadResourcesAndDataAsync() {
-      try {
-        SplashScreen.preventAutoHide();
+    // Load any resources or data that we need prior to rendering the app
+    useEffect(() => {
+        async function loadResourcesAndDataAsync() {
+            try {
+                SplashScreen.preventAutoHide();
 
-        // Load our initial navigation state
-        setInitialNavigationState(await getInitialState());
+                // Load our initial navigation state
+                setInitialNavigationState(await getInitialState());
 
-        // Load fonts
-        await Font.loadAsync({
-          ...Ionicons.font,
-          'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-        });
-      } catch (e) {
-        // We might want to provide this error information to an error reporting service
-        console.warn(e);
-      } finally {
-        setLoadingComplete(true);
-        SplashScreen.hide();
-      }
+                // Load fonts
+                await Font.loadAsync({
+                    ...Ionicons.font,
+                    'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+                });
+            } catch (e) {
+                // We might want to provide this error information to an error reporting service
+                console.warn(e);
+            } finally {
+                setLoadingComplete(true);
+                SplashScreen.hide();
+            }
+        }
+
+        loadResourcesAndDataAsync();
+    }, []);
+
+    if (!isLoadingComplete && !props.skipLoadingScreen) {
+        return null;
+    } else {
+        return (
+            <View style={styles.container}>
+                {/* <TestComponent /> */}
+                {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+                    <Stack.Navigator
+                        screenOptions={{
+                            headerStyle: styles.headerStyle,
+                            headerTitleStyle: styles.headerTitleStyle
+                            }}>
+                        <Stack.Screen name="Root" component={BottomTabNavigator} />
+                        <Stack.Screen name="ItemDetail" component={ItemDetailScreen} />
+                        <Stack.Screen name="SummaryItemsListScreen" component={SummaryItemsListScreen} />
+                        <Stack.Screen name="AddNew" component={AddNewScreen} />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </View>
+        );
     }
-
-    loadResourcesAndDataAsync();
-  }, []);
-
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return null;
-  } else {
-    return (
-      <View style={styles.container}>
-        {/* <TestComponent /> */}
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          <Stack.Navigator>
-            <Stack.Screen name="Root" component={BottomTabNavigator} />
-            <Stack.Screen name="ItemDetail" component={ItemDetailScreen} />
-            <Stack.Screen name="SummaryItemsListScreen" component={SummaryItemsListScreen} />
-            <Stack.Screen name="AddNew" component={AddNewScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </View>
-    );
-  }
-}
-
-const TestComponent = (props) => {
-  //console.log(navigation);
-  //console.log(navigation);
-  console.log(props)
-  return (
-    <Header
-      leftComponent={{ icon: 'menu', color: '#fff' }}
-      centerComponent={{ text: 'Cost Diary', style: { color: '#fff' } }}
-      rightComponent={{ icon: 'home', color: '#fff' }}
-    />
-  );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    headerStyle: {
+        backgroundColor: '#00AEEF'
+    },
+    headerTitleStyle: {
+        color: '#fff'
+      }
 });
