@@ -1,13 +1,26 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import Enumerable from 'linq';
 import ItemList from '../components/ItemList'
 
 const SummaryItemsListScreen = ({ route, navigation }) => {
-    const { data } = route.params;
+
+    const { data, dataType } = route.params;
+
+    navigation.setOptions({ headerTitle: `Items for ${dataType}` });
+
+    
 
     return (
         <View style={styles.container} contentContainerStyle={styles.contentContainer}>
-            <ItemList data={data} navigation={navigation} />
+            {Enumerable.from(data).any() &&
+                <ItemList data={data} navigation={navigation} />
+            }
+            {Enumerable.from(data).any() == false &&
+                <Text style={styles.noItemsText}>
+                    There are no items to display
+                </Text>
+            }
         </View>
     );
 }
@@ -16,10 +29,13 @@ export default SummaryItemsListScreen;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#96b6f2',
+        flex: 1
     },
     contentContainer: {
         paddingTop: 15,
+    },
+    noItemsText : {
+        padding: 15,
+        fontSize: 20
     }
 });

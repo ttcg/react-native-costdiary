@@ -13,7 +13,9 @@ import Enumerable from 'linq';
 
 import data from '../data/costtypes.json';
 
-const AddNewScreen = () => {
+const AddNewScreen = ({navigation}) => {
+
+  navigation.setOptions({ headerTitle: 'Add New Item' });
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 

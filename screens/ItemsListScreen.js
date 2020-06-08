@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View} from 'react-native';
 
 import data from '../data/costitems.json';
 import ItemList from '../components/ItemList'

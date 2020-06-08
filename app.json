@@ -24,6 +24,8 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "Learning React Native and developing a sample app to record monthly costs",
+    "githubUrl": "https://github.com/ttcg/react-native-costdiary"
   }
 }

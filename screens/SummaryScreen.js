@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements'
 import data from '../data/costitems.json';
 import costTypeData from '../data/costtypes.json';
@@ -15,7 +15,7 @@ const SummaryScreen = ({ route, navigation }) => {
 					.toArray();
 		console.log(filteredData)
 
-		navigation.navigate('SummaryItemsListScreen', { data: filteredData })
+		navigation.navigate('SummaryItemsListScreen', { data: filteredData, dataType: costTypeName })
 	}
 
 	const getSubTotal = costTypeName => {
