@@ -1,19 +1,23 @@
 import { Foundation } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { RectButton, ScrollView } from 'react-native-gesture-handler';
-import { Button, Input } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { TextField } from "react-native-material-textfield";
 import { Dropdown } from 'react-native-material-dropdown';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useSelector } from "react-redux";
 import moment from "moment";
 import Enumerable from 'linq';
 
-import data from '../data/costtypes.json';
+import {
+  selectCostTypes
+} from "./../store/costTypesReducer";
 
 const AddNewScreen = ({navigation}) => {
+
+  const costTypes = useSelector(selectCostTypes);
 
   navigation.setOptions({ headerTitle: 'Add New Item' });
 
@@ -36,7 +40,7 @@ const AddNewScreen = ({navigation}) => {
     setFieldValue('dateUsed', moment(date).format("YYYY-MM-DD"));
   };
 
-  const costTypeData = Enumerable.from(data)
+  const costTypeData = Enumerable.from(costTypes)
     .select(x => ({ value: x.costTypeId, label: x.costTypeName }))
     .orderBy(x => x.label)
     .toArray();
@@ -124,9 +128,7 @@ const AddNewScreen = ({navigation}) => {
               loadingProps={{ size: "large", color: "white" }}
             />
           </View>
-
         )}
-
       </Formik>
     </SafeAreaView>
   );

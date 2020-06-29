@@ -7,9 +7,7 @@ const SummaryItemsListScreen = ({ route, navigation }) => {
 
     const { data, dataType } = route.params;
 
-    navigation.setOptions({ headerTitle: `Items for ${dataType}` });
-
-    
+    navigation.setOptions({ headerTitle: `Items for ${dataType}` });    
 
     return (
         <View style={styles.container} contentContainerStyle={styles.contentContainer}>

@@ -1,14 +1,20 @@
 import React from 'react';
 import { StyleSheet, View} from 'react-native';
+import { useSelector } from "react-redux";
 
-import data from '../data/costitems.json';
 import ItemList from '../components/ItemList'
+import {
+    selectCostItems
+  } from "./../store/costItemsReducer";
 
 const ItemsListScreen = ({ route, navigation }) => {
+
+    const costItems = useSelector(selectCostItems);
+
     console.log(route)
     return (
         <View style={styles.container} contentContainerStyle={styles.contentContainer}>            
-            <ItemList data={data} navigation={navigation} />
+            <ItemList data={costItems} navigation={navigation} />
         </View>
     );
 }

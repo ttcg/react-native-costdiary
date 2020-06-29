@@ -1,46 +1,51 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements'
-import data from '../data/costitems.json';
-import costTypeData from '../data/costtypes.json';
 import Enumerable from 'linq';
+import { useSelector } from "react-redux";
+
+import { selectCostItems } from "./../store/costItemsReducer";
+import { selectCostTypes } from "./../store/costTypesReducer";
 
 const SummaryScreen = ({ route, navigation }) => {
 
 	console.log(route)
 
-	const onPress = (costTypeName) => { 
-		let filteredData = Enumerable.from(data)
-					.where(x => x.costType.costTypeId == getCostTypeId(costTypeName))
-					.toArray();
+	const costItems = useSelector(selectCostItems);
+	const costTypes = useSelector(selectCostTypes);
+
+	const onPress = (costTypeName) => {
+		let filteredData = Enumerable.from(costItems)
+			.where(x => x.costType.costTypeId == getCostTypeId(costTypeName))
+			.toArray();
 		console.log(filteredData)
 
 		navigation.navigate('SummaryItemsListScreen', { data: filteredData, dataType: costTypeName })
 	}
 
 	const getSubTotal = costTypeName => {
-		return Enumerable.from(data)
+		return Enumerable.from(costItems)
 			.where(x => x.costType.costTypeId == getCostTypeId(costTypeName))
 			.sum(x => x.amount);
 	}
 
-	const getCostTypeId = costTypeName => Enumerable.from(costTypeData).single(x => x.costTypeName === costTypeName).costTypeId;
+	const getCostTypeId = costTypeName => Enumerable.from(costTypes).single(x => x.costTypeName === costTypeName).costTypeId;
 
 	const getTotal = () => {
-		return Enumerable.from(data)
+		return Enumerable.from(costItems)
 			.sum(x => x.amount);
 	}
 
 	return (
 		<View style={styles.container} contentContainerStyle={styles.contentContainer}>
-			<Item title="Groceries" amount={getSubTotal('Groceries')} onPress={onPress} />			
+			<Item title="Groceries" amount={getSubTotal('Groceries')} onPress={onPress} />
 			<Item title="Dinner" amount={getSubTotal('Dinner')} onPress={onPress} />
 			<Item title="NA" amount={getSubTotal('NA')} onPress={onPress} />
 			<Item title="Diesel" amount={getSubTotal('Diesel')} onPress={onPress} />
 			<Item title="TW Food" amount={getSubTotal('TW Food')} onPress={onPress} />
 			<Item title="TW Others" amount={getSubTotal('TW Others')} onPress={onPress} />
 			<Item title="AP" amount={getSubTotal('AP')} onPress={onPress} />
-			<Item title="Others" amount={getSubTotal('Others')} onPress={onPress} /> 
+			<Item title="Others" amount={getSubTotal('Others')} onPress={onPress} />
 			<ListItem
 				title="Total"
 				titleStyle={styles.totalStyle}

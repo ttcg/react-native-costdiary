@@ -6,7 +6,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Header } from 'react-native-elements';
+import { Provider } from 'react-redux';
 
+import store from './store';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
 import ItemDetailScreen from './screens/ItemDetailScreen';
@@ -51,22 +53,23 @@ export default function App(props) {
         return null;
     } else {
         return (
-            <View style={styles.container}>
-                {/* <TestComponent /> */}
-                {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-                <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-                    <Stack.Navigator
-                        screenOptions={{
-                            headerStyle: styles.headerStyle,
-                            headerTitleStyle: styles.headerTitleStyle
+            <Provider store={store}>
+                <View style={styles.container}>
+                    {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                    <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+                        <Stack.Navigator
+                            screenOptions={{
+                                headerStyle: styles.headerStyle,
+                                headerTitleStyle: styles.headerTitleStyle
                             }}>
-                        <Stack.Screen name="Root" component={BottomTabNavigator} />
-                        <Stack.Screen name="ItemDetail" component={ItemDetailScreen} />
-                        <Stack.Screen name="SummaryItemsListScreen" component={SummaryItemsListScreen} />
-                        <Stack.Screen name="AddNew" component={AddNewScreen} />
-                    </Stack.Navigator>
-                </NavigationContainer>
-            </View>
+                            <Stack.Screen name="Root" component={BottomTabNavigator} />
+                            <Stack.Screen name="ItemDetail" component={ItemDetailScreen} />
+                            <Stack.Screen name="SummaryItemsListScreen" component={SummaryItemsListScreen} />
+                            <Stack.Screen name="AddNew" component={AddNewScreen} />
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </View>
+            </Provider>
         );
     }
 }
@@ -81,5 +84,5 @@ const styles = StyleSheet.create({
     },
     headerTitleStyle: {
         color: '#fff'
-      }
+    }
 });
