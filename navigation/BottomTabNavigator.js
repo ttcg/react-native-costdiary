@@ -3,13 +3,13 @@ import React from 'react';
 import { FlatList, StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
+import TestScreen from '../screens/HomeScreen';
 import ItemsListScreen from '../screens/ItemsListScreen';
 import AddNewScreen from '../screens/AddNewScreen';
 import SummaryScreen from '../screens/SummaryScreen';
 
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'Home';
+const INITIAL_ROUTE_NAME = 'CurrentMonth';
 
 export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
@@ -19,15 +19,6 @@ export default function BottomTabNavigator({ navigation, route }) {
 
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
-      <BottomTab.Screen
-        name="Home"
-        component={HomeScreen}
-        initialParams="Home Params"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-home" iconType="ion" />,
-        }}
-      />
       <BottomTab.Screen
         name="CurrentMonth"
         component={ItemsListScreen}
@@ -52,7 +43,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         options={{
           title: 'Add',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-add-circle" iconType="ion" />,
-          tabBarButton: (props) => (<TouchableOpacity  {...props} onPress={()=> navigation.navigate('AddNew')} />)
+          tabBarButton: (props) => (<TouchableOpacity  {...props} onPress={() => navigation.navigate('AddNew')} />)
         }}
       />
       <BottomTab.Screen
@@ -61,6 +52,14 @@ export default function BottomTabNavigator({ navigation, route }) {
         options={{
           title: 'Summary',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="format-list-numbered" iconType="material" />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Home"
+        component={TestScreen}
+        options={{
+          title: 'Test',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="ios-beer" iconType="ion" />,
         }}
       />
     </BottomTab.Navigator>

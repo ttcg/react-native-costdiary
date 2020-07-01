@@ -3,23 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
-import { MonoText } from '../components/StyledText';
-
 import {
-    selectCostTypes
-  } from "./../store/costTypesReducer";
-  import {
     increment,
     decrement,
     selectCount
-  } from "./../store/counterReducer";
+} from "./../store/counterReducer";
 
 export default function HomeScreen() {
     const dispatch = useDispatch()
     const count = useSelector(selectCount);
-    const costTypes = useSelector(selectCostTypes);
 
-    console.log(costTypes)
     return (
         <View style={styles.container}>
             <Button title="Increment" onPress={() => dispatch(increment())}></Button>

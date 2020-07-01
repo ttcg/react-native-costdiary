@@ -6,17 +6,6 @@ import { Button, Divider } from 'react-native-elements';
 const ItemDetailScreen = ({ route }) => {
 	const { item } = route.params;
 
-	// var item = {
-	// 	"costItemId": "b018bf64-d160-4aa5-a521-78b8fdadf8e6",
-	// 	"itemName": "Sainsbury",
-	// 	"costType": {
-	// 		"costTypeId": "a10b83aa-795a-460a-b0a1-0b051871f46c",
-	// 		"costTypeName": "Groceries"
-	// 	},
-	// 	"amount": 19.24,
-	// 	"dateUsed": "2020-01-02T00:00:00"
-	// }
-
 	const LineDetail = ({ label, text, showDivider = true }) => {
 		return (
 			<>
@@ -25,10 +14,6 @@ const ItemDetailScreen = ({ route }) => {
 				{showDivider && <Divider style={{ backgroundColor: '#cecaca' }} />}
 			</>
 		);
-	}
-
-	const Greet = ({ user = 'Doe' }) => {
-		return (<div>{`Hi ${user.firstName} ${user.lastName}`}</div>)
 	}
 
 	return (
