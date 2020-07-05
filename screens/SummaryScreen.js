@@ -12,7 +12,7 @@ const SummaryScreen = ({ route, navigation }) => {
 	console.log(route)
 
 	const costItems = useSelector(selectCostItems);
-	const costTypes = useSelector(selectCostTypes);
+	const { costTypes } = useSelector(selectCostTypes);
 
 	const onPress = (costTypeName) => {
 		let filteredData = Enumerable.from(costItems)

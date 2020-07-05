@@ -17,7 +17,7 @@ import {
 
 const AddNewScreen = ({navigation}) => {
 
-  const costTypes = useSelector(selectCostTypes);
+  const { costTypes } = useSelector(selectCostTypes);
 
   navigation.setOptions({ headerTitle: 'Add New Item' });
 

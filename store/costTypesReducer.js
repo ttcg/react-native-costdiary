@@ -1,17 +1,50 @@
 import { createSlice } from "@reduxjs/toolkit"
-import data from '../data/costtypes.json';
+import { CostTypesService } from '../services'
 
 export const costTypesSlice = createSlice({
     name: "costTypes",
-    initialState: data,
+    initialState: {
+        loading: false,
+        hasErrors: false,
+        costTypes: [],
+    },
     reducers: {
-        
+        getCostTypes: state => {
+            state.loading = true
+        },
+        getCostTypesSuccess: (state, { payload }) => {
+            state.costTypes = payload
+            state.loading = false
+            state.hasErrors = false
+        },
+        getCostTypesFailure: state => {
+            state.loading = false
+            state.hasErrors = true
+        }
     }
 })
 
-export const {    
+export const {
+    getCostTypes,
+    getCostTypesSuccess,
+    getCostTypesFailure
 } = costTypesSlice.actions;
 
 export const selectCostTypes = state => state.costTypes;
 
 export default costTypesSlice.reducer;
+
+export function fetchCostTypes() {
+    return async dispatch => {
+        dispatch(getCostTypes())
+
+        try {
+            const response = CostTypesService.GetCostTypes();
+            const data = response; //await response.json()
+
+            dispatch(getCostTypesSuccess(data))
+        } catch (error) {
+            dispatch(getCostTypesFailure())
+        }
+    }
+}
