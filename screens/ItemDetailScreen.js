@@ -19,7 +19,7 @@ const ItemDetailScreen = ({ route }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.contentContainer}>
-				<LineDetail label='Amount' text={`£ ${item.amount.toFixed(2)}`} />
+				<LineDetail label='Amount' text={`£ ${parseFloat(item.amount).toFixed(2)}`} />
 				<LineDetail label='Description' text={item.itemName} />
 				<LineDetail label='Type' text={item.costType.costTypeName} />
 				<LineDetail label='Transaction Date' text={moment(item.dateUsed).format("MMM DD")} showDivider={false} />

@@ -7,158 +7,168 @@ import * as Yup from 'yup';
 import { TextField } from "react-native-material-textfield";
 import { Dropdown } from 'react-native-material-dropdown';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import Enumerable from 'linq';
+// import 'react-native-get-random-values';
+// import { v4 as uuidv4 } from 'uuid';
+// uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
 
 import {
-  selectCostTypes
+    selectCostTypes
 } from "./../store/costTypesReducer";
+import {
+    addCostItemBegin
+} from './../store/costItemsReducer'
 
-const AddNewScreen = ({navigation}) => {
+const AddNewScreen = ({ navigation }) => {
 
-  const { costTypes } = useSelector(selectCostTypes);
+    navigation.setOptions({ headerTitle: 'Add New Item' });
 
-  navigation.setOptions({ headerTitle: 'Add New Item' });
+    const dispatch = useDispatch();
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const { costTypes } = useSelector(selectCostTypes);    
 
-  const renderRightIcon = (iconName) => (
-    <Foundation
-      name={iconName}
-      size={24}
-      color='black'
-    />
-  );
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-  const showDatePicker = () => setDatePickerVisibility(true);
+    const showDatePicker = () => setDatePickerVisibility(true);
 
-  const hideDatePicker = () => setDatePickerVisibility(false);
+    const hideDatePicker = () => setDatePickerVisibility(false);
 
-  const handleConfirm = (date, setFieldValue) => {
-    hideDatePicker();
-    setFieldValue('dateUsed', moment(date).format("YYYY-MM-DD"));
-  };
+    const renderRightIcon = (iconName) => (
+        <Foundation
+            name={iconName}
+            size={24}
+            color='black'
+        />
+    );    
 
-  const costTypeData = Enumerable.from(costTypes)
-    .select(x => ({ value: x.costTypeId, label: x.costTypeName }))
-    .orderBy(x => x.label)
-    .toArray();
+    const handleConfirm = (date, setFieldValue) => {
+        hideDatePicker();
+        setFieldValue('dateUsed', moment(date).format("YYYY-MM-DD"));
+    };
 
-  console.log(costTypeData)
+    const costTypeData = Enumerable.from(costTypes)
+        .select(x => ({ value: x.costTypeId, label: x.costTypeName }))
+        .orderBy(x => x.label)
+        .toArray();
 
-  const initialValues = {
-    costItemId: 'a10b83aa-795a-460a-b0a1-0b051871f46d', /// TODO: replace with actual Guid generator library
-    itemName: '',
-    costTypeId: 'a10b83aa-795a-460a-b0a1-0b051871f46c',
-    amount: '',
-    dateUsed: moment(new Date()).format("YYYY-MM-DD")
-  }
+    const initialValues = {
+        costItemId: 'a10b83aa-795a-460a-b0a1-0b051871f46d', /// TODO: replace with actual Guid generator library
+        itemName: '',
+        costTypeId: 'a10b83aa-795a-460a-b0a1-0b051871f46c',
+        amount: null,
+        dateUsed: moment(new Date()).format("YYYY-MM-DD")
+    }
 
-  const validationSchema = Yup.object({
-    itemName: Yup.string()
-      .max(25)
-      .required('Required'),
-    costTypeId: Yup.string()
-      .required('Required'),
-    amount: Yup.number()
-      .typeError('must be in number format')
-      .positive('must be greater than ZERO')
-      .required('Required'),
-    dateUsed: Yup.date()
-      .typeError('must be in date format')
-      .max(new Date())
-      .required('Required')
-  })
+    const validationSchema = Yup.object({
+        itemName: Yup.string()
+            .max(25)
+            .required('Required'),
+        costTypeId: Yup.string()
+            .required('Required'),
+        amount: Yup.number()
+            .typeError('must be in number format')
+            .positive('must be greater than ZERO')
+            .required('Required'),
+        dateUsed: Yup.date()
+            .typeError('must be in date format')
+            .max(new Date())
+            .required('Required')
+    })
 
-  return (
-    <SafeAreaView style={styles.formContainer}>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(values)
-        }}
-      >
-        {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors }) => (
-          <View>
-            <TextField
-              onChangeText={handleChange("itemName")}
-              onBlur={handleBlur("itemName")}
-              label='Item Name'
-              value={values.itemName}
-              error={errors.itemName}
-            />
-            <Dropdown
-              onChangeText={handleChange("costTypeId")}
-              label='Cost Type'
-              value={values.costTypeId}
-              data={costTypeData}
-              itemCount={10}
-            />
-            <TextField
-              onChangeText={handleChange("amount")}
-              onBlur={handleBlur("amount")}
-              label='Amount'
-              value={values.amount}
-              keyboardType='decimal-pad'
-              error={errors.amount}
-              renderRightAccessory={() => renderRightIcon('pound')}
-            />
-            <TextField
-              onChangeText={handleChange("dateUsed")}
-              onBlur={handleBlur("dateUsed")}
-              onFocus={showDatePicker}
-              label='Date'
-              baseColor='#000000'
-              defaultValue={values.dateUsed}
-              keyboardType='decimal-pad'
-              error={errors.dateUsed}
-              renderRightAccessory={() => renderRightIcon('calendar')}
-            />
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={date => handleConfirm(date, setFieldValue)}
-              onCancel={hideDatePicker}
-            />
-            <Button
-              title="Submit"
-              onPress={handleSubmit}
-              loadingProps={{ size: "large", color: "white" }}
-            />
-          </View>
-        )}
-      </Formik>
-    </SafeAreaView>
-  );
+    return (
+        <SafeAreaView style={styles.formContainer}>
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={(values, { setSubmitting }) => {                   
+
+                    values.costType = Enumerable.from(costTypes).single(x => x.costTypeId === values.costTypeId);
+
+                    console.log(values)
+                    dispatch(addCostItemBegin(values))
+                }}
+            >
+                {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors }) => (
+                    <View>
+                        <TextField
+                            onChangeText={handleChange("itemName")}
+                            onBlur={handleBlur("itemName")}
+                            label='Item Name'
+                            value={values.itemName}
+                            error={errors.itemName}
+                        />
+                        <Dropdown
+                            onChangeText={handleChange("costTypeId")}
+                            label='Cost Type'
+                            value={values.costTypeId}
+                            data={costTypeData}
+                            itemCount={10}
+                        />
+                        <TextField
+                            onChangeText={handleChange("amount")}
+                            onBlur={handleBlur("amount")}
+                            label='Amount'
+                            value={values.amount}
+                            keyboardType='decimal-pad'
+                            error={errors.amount}
+                            renderRightAccessory={() => renderRightIcon('pound')}
+                        />
+                        <TextField
+                            onChangeText={handleChange("dateUsed")}
+                            onBlur={handleBlur("dateUsed")}
+                            onFocus={showDatePicker}
+                            label='Date'
+                            baseColor='#000000'
+                            defaultValue={values.dateUsed}
+                            keyboardType='decimal-pad'
+                            error={errors.dateUsed}
+                            renderRightAccessory={() => renderRightIcon('calendar')}
+                        />
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
+                            mode="date"
+                            onConfirm={date => handleConfirm(date, setFieldValue)}
+                            onCancel={hideDatePicker}
+                        />
+                        <Button
+                            title="Submit"
+                            onPress={handleSubmit}
+                            loadingProps={{ size: "large", color: "white" }}
+                        />
+                    </View>
+                )}
+            </Formik>
+        </SafeAreaView>
+    );
 }
 
 export default AddNewScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fafafa',
-  },
-  saveButtonContainer: {
-    marginTop: 12
-  },
-  option: {
-    backgroundColor: '#fdfdfd',
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: 0,
-    borderColor: '#ededed',
-  },
-  lastOption: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  defaultValueColor: {
-    color: '#000000',
-  },
-  formContainer: {
-    margin: 10
-  }
+    container: {
+        flex: 1,
+        backgroundColor: '#fafafa',
+    },
+    saveButtonContainer: {
+        marginTop: 12
+    },
+    option: {
+        backgroundColor: '#fdfdfd',
+        paddingHorizontal: 15,
+        paddingVertical: 15,
+        borderWidth: StyleSheet.hairlineWidth,
+        borderBottomWidth: 0,
+        borderColor: '#ededed',
+    },
+    lastOption: {
+        borderBottomWidth: StyleSheet.hairlineWidth,
+    },
+    defaultValueColor: {
+        color: '#000000',
+    },
+    formContainer: {
+        margin: 10
+    }
 });

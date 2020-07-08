@@ -11,7 +11,7 @@ const SummaryScreen = ({ route, navigation }) => {
 
 	console.log(route)
 
-	const costItems = useSelector(selectCostItems);
+	const { costItems } = useSelector(selectCostItems);
 	const { costTypes } = useSelector(selectCostTypes);
 
 	const onPress = (costTypeName) => {
@@ -33,7 +33,7 @@ const SummaryScreen = ({ route, navigation }) => {
 
 	const getTotal = () => {
 		return Enumerable.from(costItems)
-			.sum(x => x.amount);
+			.sum(x => parseFloat(x.amount));
 	}
 
 	return (
@@ -65,7 +65,7 @@ const Item = ({ title, amount, onPress }) => {
 		>
 			<ListItem
 				title={title}
-				rightTitle={`£ ${amount.toFixed(2)}`}
+				rightTitle={`£ ${parseFloat(amount).toFixed(2)}`}
 				rightTitleStyle={styles.amountStyle}
 				bottomDivider
 			/>

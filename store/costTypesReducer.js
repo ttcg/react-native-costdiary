@@ -34,7 +34,7 @@ export const selectCostTypes = state => state.costTypes;
 
 export default costTypesSlice.reducer;
 
-export function fetchCostTypes() {
+export const fetchCostTypes = () => {
     return async dispatch => {
         dispatch(getCostTypes())
 

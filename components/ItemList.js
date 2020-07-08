@@ -22,7 +22,7 @@ const Item = ({ item, onPress }) => {
             <ListItem
                 title={item.itemName}
                 subtitle={item.costType.costTypeName}
-                rightTitle={`£ ${item.amount.toFixed(2)}`}
+                rightTitle={`£ ${parseFloat(item.amount).toFixed(2)}`}
                 rightTitleStyle={styles.amountStyle}
                 rightSubtitle={moment(item.dateUsed).format("MMM DD")}
                 bottomDivider
