@@ -3,7 +3,7 @@ import React from 'react';
 import { FlatList, StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import TabBarIcon from '../components/TabBarIcon';
-import TestScreen from '../screens/HomeScreen';
+import TestScreen from '../screens/TestScreen';
 import ItemsListScreen from '../screens/ItemsListScreen';
 import AddNewScreen from '../screens/AddNewScreen';
 import SummaryScreen from '../screens/SummaryScreen';
@@ -43,7 +43,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         options={{
           title: 'Add',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-add-circle" iconType="ion" />,
-          tabBarButton: (props) => (<TouchableOpacity  {...props} onPress={() => navigation.navigate('AddNew')} />)
+          tabBarButton: (props) => (<TouchableOpacity  {...props} onPress={() => navigation.push('AddNew')} />)
         }}
       />
       <BottomTab.Screen

@@ -9,16 +9,15 @@ import { selectCostTypes } from "./../store/costTypesReducer";
 
 const SummaryScreen = ({ route, navigation }) => {
 
-	console.log(route)
+	//console.log(route)
 
 	const { costItems } = useSelector(selectCostItems);
 	const { costTypes } = useSelector(selectCostTypes);
-
+console.log(costItems)
 	const onPress = (costTypeName) => {
 		let filteredData = Enumerable.from(costItems)
 			.where(x => x.costType.costTypeId == getCostTypeId(costTypeName))
 			.toArray();
-		console.log(filteredData)
 
 		navigation.navigate('SummaryItemsListScreen', { data: filteredData, dataType: costTypeName })
 	}
@@ -26,7 +25,7 @@ const SummaryScreen = ({ route, navigation }) => {
 	const getSubTotal = costTypeName => {
 		return Enumerable.from(costItems)
 			.where(x => x.costType.costTypeId == getCostTypeId(costTypeName))
-			.sum(x => x.amount);
+			.sum(x => parseFloat(x.amount));
 	}
 
 	const getCostTypeId = costTypeName => Enumerable.from(costTypes).single(x => x.costTypeName === costTypeName).costTypeId;

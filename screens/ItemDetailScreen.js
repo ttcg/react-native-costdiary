@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import moment from "moment";
 import { Button, Divider } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+
 
 const ItemDetailScreen = ({ route }) => {
 	const { item } = route.params;
@@ -24,9 +27,29 @@ const ItemDetailScreen = ({ route }) => {
 				<LineDetail label='Type' text={item.costType.costTypeName} />
 				<LineDetail label='Transaction Date' text={moment(item.dateUsed).format("MMM DD")} showDivider={false} />
 			</View>
-			<View style={styles.contentContainer}>
-				<Button raised title="Edit" />
+			<View style={styles.buttonContainer}>
+				<Button 
+				containerStyle={styles.button}
+				icon={
+					<Icon
+						name="edit"
+						size={18}
+						color="white"
+						style={styles.buttonIcon}
+					/>
+				} raised title="Edit" />
+				<Button 
+				containerStyle={styles.button}
+				icon={
+					<MaterialCommunityIcons
+						name="delete-forever"
+						size={18}
+						color="white"
+						style={styles.buttonIcon}
+					/>
+				} raised title="Delete" />
 			</View>
+
 		</View>
 	);
 }
@@ -56,4 +79,17 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 		fontSize: 16
 	},
+	buttonContainer: {
+		margin: 15,
+		flexDirection: 'row',
+		justifyContent: 'space-around'
+	},
+	buttonIcon: {
+		margin: 5
+	},
+	button: {
+		backgroundColor: 'green',
+		width: '40%',
+		height: 40
+	  }
 });

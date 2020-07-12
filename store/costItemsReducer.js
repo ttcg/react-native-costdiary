@@ -4,6 +4,7 @@ import { costItemsService } from '../services'
 export const costItemsSlice = createSlice({
     name: "costItems",
     initialState: {
+        hasAdded: false,
         loading: false,
         submitting: false,
         hasErrors: false,
@@ -17,6 +18,7 @@ export const costItemsSlice = createSlice({
             state.costItems = payload
             state.loading = false
             state.hasErrors = false
+            state.hasAdded = false
         },
         getCostItemsFailure: state => {
             state.loading = false
@@ -24,16 +26,23 @@ export const costItemsSlice = createSlice({
         },
         addCostItem: state => {
             state.submitting = true
+            state.hasAdded = false
         },
         addCostItemSuccess: (state, { payload }) => {
             state.costItems = state.costItems.concat(payload)
-            state.submitting = false,
+            state.submitting = false
             state.hasErrors = false
+            state.hasAdded = true
         },
         addCostItemFailure: state => {
             state.submitting = false
             state.hasErrors = true
         },
+        resetCostItemAdd: state => {
+            state.hasAdded = false
+            state.hasErrors = false
+            state.submitting = false
+        }
     }
 })
 
@@ -43,7 +52,8 @@ export const {
     getCostItemsFailure,
     addCostItem,
     addCostItemSuccess,
-    addCostItemFailure
+    addCostItemFailure,
+    resetCostItemAdd
 } = costItemsSlice.actions;
 
 export const selectCostItems = state => state.costItems;
