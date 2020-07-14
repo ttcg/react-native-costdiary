@@ -5,6 +5,7 @@ export const costItemsSlice = createSlice({
     name: "costItems",
     initialState: {
         hasAdded: false,
+        hasSubmitted: false,
         loading: false,
         submitting: false,
         hasErrors: false,
@@ -33,16 +34,30 @@ export const costItemsSlice = createSlice({
             state.submitting = false
             state.hasErrors = false
             state.hasAdded = true
-        },
+        },        
         addCostItemFailure: state => {
             state.submitting = false
             state.hasErrors = true
         },
         resetCostItemAdd: state => {
             state.hasAdded = false
+            state.hasSubmitted = false
             state.hasErrors = false
             state.submitting = false
-        }
+        },
+        deleteCostItem: state => {
+            state.submitting = true
+        },
+        deleteCostItemSuccess: (state, { payload }) => {
+            state.costItems = state.costItems.filter(item => item.costItemId !== payload)
+            state.hasSubmitted = true
+            state.submitting = false
+            state.hasErrors = false
+        },
+        deleteCostItemFailure: state => {
+            state.submitting = false
+            state.hasErrors = true
+        },
     }
 })
 
@@ -53,7 +68,10 @@ export const {
     addCostItem,
     addCostItemSuccess,
     addCostItemFailure,
-    resetCostItemAdd
+    resetCostItemAdd,
+    deleteCostItem,
+    deleteCostItemSuccess,
+    deleteCostItemFailure
 } = costItemsSlice.actions;
 
 export const selectCostItems = state => state.costItems;
@@ -79,10 +97,22 @@ export const addCostItemBegin = (payload) => {
     return async dispatch => {
         dispatch(addCostItem())
 
-        try {    
-            dispatch(addCostItemSuccess(payload))
+        try {
+            dispatch(deleteCostItemSuccess(payload))
         } catch (error) {
             dispatch(addCostItemFailure())
+        }
+    }
+}
+
+export const triggerDeleteCostItem = (payload) => {
+    return async dispatch => {
+        dispatch(deleteCostItem())
+
+        try {
+            dispatch(deleteCostItemSuccess(payload))
+        } catch (error) {
+            dispatch(deleteCostItemFailure())
         }
     }
 }

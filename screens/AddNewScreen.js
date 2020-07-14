@@ -11,6 +11,15 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import Enumerable from 'linq';
 
+import {
+    selectCostTypes
+} from "./../store/costTypesReducer";
+import {
+    addCostItemBegin,
+    resetCostItemAdd,
+    selectCostItems
+} from './../store/costItemsReducer'
+
 function create_UUID() {
     var dt = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -20,15 +29,6 @@ function create_UUID() {
     });
     return uuid;
 }
-
-import {
-    selectCostTypes
-} from "./../store/costTypesReducer";
-import {
-    addCostItemBegin,
-    resetCostItemAdd,
-    selectCostItems
-} from './../store/costItemsReducer'
 
 const AddNewScreen = ({ navigation }) => {
 
