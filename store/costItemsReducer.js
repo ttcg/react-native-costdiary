@@ -5,6 +5,7 @@ export const costItemsSlice = createSlice({
     name: "costItems",
     initialState: {
         hasAdded: false,
+        hasUpdated: false,
         hasSubmitted: false,
         loading: false,
         submitting: false,
@@ -39,8 +40,9 @@ export const costItemsSlice = createSlice({
             state.submitting = false
             state.hasErrors = true
         },
-        resetCostItemAdd: state => {
+        resetCostItemMaintenance: state => {
             state.hasAdded = false
+            state.hasUpdated = false
             state.hasSubmitted = false
             state.hasErrors = false
             state.submitting = false
@@ -58,6 +60,21 @@ export const costItemsSlice = createSlice({
             state.submitting = false
             state.hasErrors = true
         },
+        editCostItem: state => {
+            state.submitting = true
+            state.hasUpdated = false
+        },
+        editCostItemSuccess: (state, { payload }) => {
+            var index = state.costItems.findIndex(p => p.costItemId == payload.costItemId)
+            state.costItems[index] = payload
+            state.submitting = false
+            state.hasErrors = false
+            state.hasUpdated = true
+        },        
+        editCostItemFailure: state => {
+            state.submitting = false
+            state.hasErrors = true
+        },
     }
 })
 
@@ -68,10 +85,13 @@ export const {
     addCostItem,
     addCostItemSuccess,
     addCostItemFailure,
-    resetCostItemAdd,
+    resetCostItemMaintenance,
     deleteCostItem,
     deleteCostItemSuccess,
-    deleteCostItemFailure
+    deleteCostItemFailure,
+    editCostItem,
+    editCostItemSuccess,
+    editCostItemFailure
 } = costItemsSlice.actions;
 
 export const selectCostItems = state => state.costItems;
@@ -98,7 +118,7 @@ export const addCostItemBegin = (payload) => {
         dispatch(addCostItem())
 
         try {
-            dispatch(deleteCostItemSuccess(payload))
+            dispatch(addCostItemSuccess(payload))
         } catch (error) {
             dispatch(addCostItemFailure())
         }
@@ -113,6 +133,18 @@ export const triggerDeleteCostItem = (payload) => {
             dispatch(deleteCostItemSuccess(payload))
         } catch (error) {
             dispatch(deleteCostItemFailure())
+        }
+    }
+}
+
+export const triggerEditCostItem = (payload) => {
+    return async dispatch => {
+        dispatch(editCostItem())
+
+        try {
+            dispatch(editCostItemSuccess(payload))
+        } catch (error) {
+            dispatch(editCostItemFailure())
         }
     }
 }

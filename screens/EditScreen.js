@@ -11,26 +11,26 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import Enumerable from 'linq';
 
-import uuid from '../common/uuid'
 import {
     selectCostTypes
-} from "./../store/costTypesReducer";
+} from "../store/costTypesReducer";
 import {
-    addCostItemBegin,
+    triggerEditCostItem,
     resetCostItemMaintenance,
     selectCostItems
-} from './../store/costItemsReducer'
+} from '../store/costItemsReducer'
 
+const EditScreen = ({ navigation, route }) => {
 
+    navigation.setOptions({ headerTitle: 'Edit Item Detail' });
 
-const AddNewScreen = ({ navigation }) => {
-
-    navigation.setOptions({ headerTitle: 'Add New Item' });
+    const { item } = route.params;
+    console.log(item)
 
     const dispatch = useDispatch();
 
     const { costTypes } = useSelector(selectCostTypes);
-    const { hasAdded } = useSelector(selectCostItems);
+    const { hasUpdated } = useSelector(selectCostItems);
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -47,11 +47,11 @@ const AddNewScreen = ({ navigation }) => {
     );
 
     useEffect(() => {
-        if (hasAdded) {
+        if (hasUpdated) {
             dispatch(resetCostItemMaintenance())
             navigation.navigate('Root')
         }
-    }, [hasAdded, navigation]);
+    }, [hasUpdated, navigation]);
 
     const handleDateConfirm = (date, setFieldValue) => {
         hideDatePicker();
@@ -63,11 +63,12 @@ const AddNewScreen = ({ navigation }) => {
         .orderBy(x => x.label)
         .toArray();
 
-    const initialValues = {        
-        itemName: '',
-        costTypeId: 'a10b83aa-795a-460a-b0a1-0b051871f46c',
-        amount: null,
-        dateUsed: moment(new Date()).format("YYYY-MM-DD")
+    const initialValues = {
+        costItemId: item.costItemId,
+        itemName: item.itemName,
+        costTypeId: item.costType.costTypeId,
+        amount: parseFloat(item.amount).toFixed(2),
+        dateUsed: moment(item.dateUsed).format("YYYY-MM-DD")
     }
 
     const validationSchema = Yup.object({
@@ -93,11 +94,10 @@ const AddNewScreen = ({ navigation }) => {
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
 
-                    values.costItemId = uuid()
                     values.costType = Enumerable.from(costTypes).single(x => x.costTypeId === values.costTypeId);
 
                     console.log(values)
-                    dispatch(addCostItemBegin(values))
+                    dispatch(triggerEditCostItem(values))
                     setSubmitting(false)
                 }}
             >
@@ -159,7 +159,7 @@ const AddNewScreen = ({ navigation }) => {
     );
 }
 
-export default AddNewScreen;
+export default EditScreen;
 
 const styles = StyleSheet.create({
     container: {

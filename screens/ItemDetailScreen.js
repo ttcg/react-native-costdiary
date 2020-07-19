@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
 	triggerDeleteCostItem,
 	selectCostItems,
-	resetCostItemAdd
+	resetCostItemMaintenance
 } from './../store/costItemsReducer'
 
 const ItemDetailScreen = ({ route, navigation }) => {
@@ -21,7 +21,7 @@ const ItemDetailScreen = ({ route, navigation }) => {
 
 	useEffect(() => {
         if (hasSubmitted) {
-            dispatch(resetCostItemAdd())
+            dispatch(resetCostItemMaintenance())
             navigation.navigate('Root')
         }
     }, [hasSubmitted, navigation]);
@@ -34,6 +34,10 @@ const ItemDetailScreen = ({ route, navigation }) => {
 				{showDivider && <Divider style={{ backgroundColor: '#cecaca' }} />}
 			</>
 		);
+	}
+
+	const handleEdit = (itemToEdit) => {
+		navigation.navigate('EditScreen', { item: itemToEdit })
 	}
 
 	const handleDelete = (id) => {
@@ -67,6 +71,7 @@ const ItemDetailScreen = ({ route, navigation }) => {
 			<View style={styles.buttonContainer}>
 				<Button
 					containerStyle={styles.button}
+					onPress={() => handleEdit(item)}
 					icon={
 						<Icon
 							name="edit"

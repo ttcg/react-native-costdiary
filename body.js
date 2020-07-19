@@ -9,6 +9,7 @@ import useLinking from './navigation/useLinking';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import ItemDetailScreen from './screens/ItemDetailScreen';
 import AddNewScreen from './screens/AddNewScreen';
+import EditScreen from './screens/EditScreen';
 import SummaryItemsListScreen from './screens/SummaryItemsListScreen';
 import { fetchCostTypes } from './store/costTypesReducer'
 
@@ -59,6 +60,7 @@ const Body = (props) => {
                         }}>
                         <Stack.Screen name="Root" component={BottomTabNavigator} />
                         <Stack.Screen name="ItemDetail" component={ItemDetailScreen} />
+                        <Stack.Screen name="EditScreen" component={EditScreen} />
                         <Stack.Screen name="SummaryItemsListScreen" component={SummaryItemsListScreen} />
                         <Stack.Screen name="AddNew" component={AddNewScreen} />
                     </Stack.Navigator>
