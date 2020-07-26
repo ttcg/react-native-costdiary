@@ -12,6 +12,7 @@ import AddNewScreen from './screens/AddNewScreen';
 import EditScreen from './screens/EditScreen';
 import SummaryItemsListScreen from './screens/SummaryItemsListScreen';
 import { fetchCostTypes } from './store/costTypesReducer'
+import Toaster from './components/Toaster';
 
 const Stack = createStackNavigator();
 
@@ -33,7 +34,6 @@ const Body = (props) => {
                 setInitialNavigationState(await getInitialState());
 
                 dispatch(fetchCostTypes())
-
             } catch (e) {
                 console.warn(e);
             }
@@ -65,6 +65,7 @@ const Body = (props) => {
                         <Stack.Screen name="AddNew" component={AddNewScreen} />
                     </Stack.Navigator>
                 </NavigationContainer>
+                <Toaster />
             </View>
         );
     }

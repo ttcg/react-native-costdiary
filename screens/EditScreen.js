@@ -1,6 +1,6 @@
 import { Foundation } from '@expo/vector-icons';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Formik } from 'formik';
 import * as Yup from 'yup';

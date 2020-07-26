@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { costItemsService } from '../services'
+import { showToast } from './toasterReducer'
 
 export const costItemsSlice = createSlice({
     name: "costItems",
@@ -119,6 +120,7 @@ export const addCostItemBegin = (payload) => {
 
         try {
             dispatch(addCostItemSuccess(payload))
+            dispatch(showToast('A new item has been added successfully'))
         } catch (error) {
             dispatch(addCostItemFailure())
         }
@@ -131,6 +133,7 @@ export const triggerDeleteCostItem = (payload) => {
 
         try {
             dispatch(deleteCostItemSuccess(payload))
+            dispatch(showToast('Item has been deleted successfully'))
         } catch (error) {
             dispatch(deleteCostItemFailure())
         }
@@ -143,6 +146,7 @@ export const triggerEditCostItem = (payload) => {
 
         try {
             dispatch(editCostItemSuccess(payload))
+            dispatch(showToast('Item has been edited successfully'))
         } catch (error) {
             dispatch(editCostItemFailure())
         }
