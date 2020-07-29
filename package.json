@@ -39,7 +39,6 @@
     "react-native-material-textfield": "^0.16.1",
     "react-native-materialui-textfield": "^0.13.2",
     "react-native-modal-datetime-picker": "^8.7.1",
-    "react-native-root-siblings": "^4.0.6",
     "react-native-root-toast": "^3.2.1",
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",

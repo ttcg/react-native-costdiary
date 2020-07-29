@@ -1,28 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SplashScreen } from 'expo';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { useDispatch } from 'react-redux';
 
 import useLinking from './navigation/useLinking';
-import BottomTabNavigator from './navigation/BottomTabNavigator';
-import ItemDetailScreen from './screens/ItemDetailScreen';
-import AddNewScreen from './screens/AddNewScreen';
-import EditScreen from './screens/EditScreen';
-import SummaryItemsListScreen from './screens/SummaryItemsListScreen';
-import { fetchCostTypes } from './store/costTypesReducer'
 import Toaster from './components/Toaster';
-
-const Stack = createStackNavigator();
+import Spinner from './components/Spinner';
+import Navigator from './components/Navigator';
+import { fetchCostTypes } from './store/costTypesReducer'
 
 const Body = (props) => {
     const [isLoadingComplete, setLoadingComplete] = useState(false);
     const [initialNavigationState, setInitialNavigationState] = useState();
     const containerRef = useRef();
-    const { getInitialState } = useLinking(containerRef);
-
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const { getInitialState } = useLinking(containerRef);    
 
     // Load any resources or data that we need prior to rendering the app
     useEffect(() => {
@@ -52,20 +44,9 @@ const Body = (props) => {
         return (
             <View style={styles.container}>
                 {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-                <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-                    <Stack.Navigator
-                        screenOptions={{
-                            headerStyle: styles.headerStyle,
-                            headerTitleStyle: styles.headerTitleStyle
-                        }}>
-                        <Stack.Screen name="Root" component={BottomTabNavigator} />
-                        <Stack.Screen name="ItemDetail" component={ItemDetailScreen} />
-                        <Stack.Screen name="EditScreen" component={EditScreen} />
-                        <Stack.Screen name="SummaryItemsListScreen" component={SummaryItemsListScreen} />
-                        <Stack.Screen name="AddNew" component={AddNewScreen} />
-                    </Stack.Navigator>
-                </NavigationContainer>
+                <Navigator navigationState={initialNavigationState} />
                 <Toaster />
+                <Spinner />
             </View>
         );
     }
@@ -77,11 +58,5 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-    },
-    headerStyle: {
-        backgroundColor: '#00AEEF'
-    },
-    headerTitleStyle: {
-        color: '#fff'
     }
 });

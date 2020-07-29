@@ -8,6 +8,9 @@ import {
     decrement,
     selectCount
 } from "./../store/counterReducer";
+import {
+    beginAjaxCall
+} from "./../store/spinnerReducer";
 
 export default function HomeScreen() {
     const dispatch = useDispatch()
@@ -17,6 +20,7 @@ export default function HomeScreen() {
         <View style={styles.container}>
             <Button title="Increment" onPress={() => dispatch(increment())}></Button>
             <Button title="Decrement" onPress={() => dispatch(decrement())}></Button>
+            <Button title="Trigger Ajax" onPress={() => dispatch(beginAjaxCall())}></Button>
             <Text>{count}</Text>
         </View>
     );

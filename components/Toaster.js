@@ -18,7 +18,6 @@ const Toaster = () => {
                     animation={true}
                     hideOnPress={true}
                     onHidden={() => {
-                        console.log('onHidden');
                         dispatch(hideToast());
                     }}>
                     {message}

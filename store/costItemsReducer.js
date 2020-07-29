@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { costItemsService } from '../services'
 import { showToast } from './toasterReducer'
+import { beginAjaxCall } from './spinnerReducer'
 
 export const costItemsSlice = createSlice({
     name: "costItems",
@@ -101,26 +102,33 @@ export default costItemsSlice.reducer;
 
 export const fetchCostItems = () => {
     return async dispatch => {
+        dispatch(beginAjaxCall())
         dispatch(getCostItems())
 
         try {
             const response = costItemsService.GetCostItems();
             const data = response; //await response.json()
-
-            dispatch(getCostItemsSuccess(data))
+            setTimeout(function () {
+                dispatch(getCostItemsSuccess(data))
+            }, 1000);
         } catch (error) {
             dispatch(getCostItemsFailure())
         }
     }
 }
 
-export const addCostItemBegin = (payload) => {
+export const triggerAddCostItem = (payload) => {
     return async dispatch => {
+        dispatch(beginAjaxCall())
         dispatch(addCostItem())
 
         try {
-            dispatch(addCostItemSuccess(payload))
-            dispatch(showToast('A new item has been added successfully'))
+            setTimeout(function () {
+                dispatch(addCostItemSuccess(payload))
+                dispatch(showToast('A new item has been added successfully'))
+            }, 1000);
+            
+            
         } catch (error) {
             dispatch(addCostItemFailure())
         }
@@ -129,11 +137,16 @@ export const addCostItemBegin = (payload) => {
 
 export const triggerDeleteCostItem = (payload) => {
     return async dispatch => {
+        dispatch(beginAjaxCall())
         dispatch(deleteCostItem())
 
         try {
-            dispatch(deleteCostItemSuccess(payload))
-            dispatch(showToast('Item has been deleted successfully'))
+            setTimeout(function () {
+                dispatch(deleteCostItemSuccess(payload))
+                dispatch(showToast('Item has been deleted successfully'))
+            }, 1000);
+            
+            
         } catch (error) {
             dispatch(deleteCostItemFailure())
         }
@@ -142,6 +155,7 @@ export const triggerDeleteCostItem = (payload) => {
 
 export const triggerEditCostItem = (payload) => {
     return async dispatch => {
+        dispatch(beginAjaxCall())
         dispatch(editCostItem())
 
         try {

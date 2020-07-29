@@ -146,7 +146,7 @@ const EditScreen = ({ navigation, route }) => {
                                 onCancel={hideDatePicker}
                             />
                             <Button
-                                title="Submit"
+                                title="Save"
                                 onPress={handleSubmit}
                                 disabled={isSubmitting}
                                 loading={isSubmitting}

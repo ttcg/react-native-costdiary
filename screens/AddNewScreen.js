@@ -1,6 +1,6 @@
 import { Foundation } from '@expo/vector-icons';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -16,7 +16,7 @@ import {
     selectCostTypes
 } from "./../store/costTypesReducer";
 import {
-    addCostItemBegin,
+    triggerAddCostItem,
     resetCostItemMaintenance,
     selectCostItems
 } from './../store/costItemsReducer'
@@ -97,7 +97,7 @@ const AddNewScreen = ({ navigation }) => {
                     values.costType = Enumerable.from(costTypes).single(x => x.costTypeId === values.costTypeId);
 
                     console.log(values)
-                    dispatch(addCostItemBegin(values))
+                    dispatch(triggerAddCostItem(values))
                     setSubmitting(false)
                 }}
             >
@@ -146,7 +146,7 @@ const AddNewScreen = ({ navigation }) => {
                                 onCancel={hideDatePicker}
                             />
                             <Button
-                                title="Submit"
+                                title="Add"
                                 onPress={handleSubmit}
                                 disabled={isSubmitting}
                                 loading={isSubmitting}
