@@ -1,15 +1,15 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
-import { FlatList, StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 
 import TabBarIcon from '../components/TabBarIcon';
 import TestScreen from '../screens/TestScreen';
 import ItemsListScreen from '../screens/ItemsListScreen';
 import AddNewScreen from '../screens/AddNewScreen';
 import SummaryScreen from '../screens/SummaryScreen';
+import FilterScreen from '../screens/FilterScreen';
 
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'CurrentMonth';
+const INITIAL_ROUTE_NAME = 'List';
 
 export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
@@ -17,52 +17,72 @@ export default function BottomTabNavigator({ navigation, route }) {
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
 
+  const [isFilterVisible, toggleFilter] = useState(false);
+
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
-      <BottomTab.Screen
-        name="CurrentMonth"
-        component={ItemsListScreen}
-        initialParams={{ month: 4 }}
-        options={{
-          title: 'Current Month',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-calendar" iconType="ion" />,
+    <>
+      <BottomTab.Navigator
+        initialRouteName={INITIAL_ROUTE_NAME}
+        tabBarOptions={{
+          inactiveBackgroundColor: '#42a5f5',
+          inactiveTintColor: '#ffffff'
         }}
-      />
-      <BottomTab.Screen
-        name="PrevMonth"
-        component={ItemsListScreen}
-        initialParams={{ month: 3 }}
-        options={{
-          title: 'Previous Month',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="page-previous-outline" iconType="material" />,
-        }}
-      />
-      <BottomTab.Screen
-        name="AddNew"
-        component={AddNewScreen}
-        options={{
-          title: 'Add',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-add-circle" iconType="ion" />,
-          tabBarButton: (props) => (<TouchableOpacity  {...props} onPress={() => navigation.push('AddNew')} />)
-        }}
-      />
-      <BottomTab.Screen
-        name="Summary"
-        component={SummaryScreen}
-        options={{
-          title: 'Summary',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="format-list-numbered" iconType="material" />,
-        }}
-      />
-      <BottomTab.Screen
-        name="Home"
-        component={TestScreen}
-        options={{
-          title: 'Test',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="ios-beer" iconType="ion" />,
-        }}
-      />
-    </BottomTab.Navigator>
+      >
+        <BottomTab.Screen
+          name="List"
+          component={ItemsListScreen}          
+          options={{
+            title: 'List',
+            tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-calendar" iconType="ion" />,
+          }}
+        />
+        <BottomTab.Screen
+          name="Filter"
+          component={FilterScreen}
+          options={{
+            title: 'Filter',
+            tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="filter" iconType="material" />,
+          }}
+          listeners={() => ({
+            tabPress: e => {
+              e.preventDefault();
+              toggleFilter();
+            },
+          })}
+        />
+        <BottomTab.Screen
+          name="AddNew"
+          component={AddNewScreen}
+          options={{
+            title: 'Add',
+            tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-add-circle" iconType="ion" />
+          }}
+          listeners={({ navigation, route }) => ({
+            tabPress: e => {
+              e.preventDefault();
+              navigation.push('AddNew');
+            },
+          })}
+        />
+        <BottomTab.Screen
+          name="Summary"
+          component={SummaryScreen}
+          options={{
+            title: 'Summary',
+            tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="format-list-numbered" iconType="material" />,
+          }}
+        />
+        <BottomTab.Screen
+          name="Home"
+          component={TestScreen}
+          options={{
+            title: 'Test',
+            tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="ios-beer" iconType="ion" />,
+          }}
+        />
+      </BottomTab.Navigator>
+      <FilterScreen isVisible={isFilterVisible} toggleFilter={toggleFilter} />
+    </>
   );
 }
 
@@ -70,8 +90,6 @@ function getHeaderTitle(route) {
   const routeName = route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
 
   switch (routeName) {
-    case 'CurrentMonth':
-      return 'Current Month';
     case 'PrevMonth':
       return 'Previous Month';
     case 'AddNew':

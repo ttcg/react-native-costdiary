@@ -7,13 +7,11 @@ import { useSelector } from "react-redux";
 import { selectCostItems } from "./../store/costItemsReducer";
 import { selectCostTypes } from "./../store/costTypesReducer";
 
-const SummaryScreen = ({ route, navigation }) => {
-
-	//console.log(route)
+const SummaryScreen = ({ navigation }) => {
 
 	const { costItems } = useSelector(selectCostItems);
 	const { costTypes } = useSelector(selectCostTypes);
-console.log(costItems)
+
 	const onPress = (costTypeName) => {
 		let filteredData = Enumerable.from(costItems)
 			.where(x => x.costType.costTypeId == getCostTypeId(costTypeName))
