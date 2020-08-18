@@ -1,6 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useState } from 'react';
+import { useSelector } from "react-redux";
+import moment from 'moment'
 
+import {
+  selectSettings
+} from './../store/settingsReducer'
 import TabBarIcon from '../components/TabBarIcon';
 import TestScreen from '../screens/TestScreen';
 import ItemsListScreen from '../screens/ItemsListScreen';
@@ -12,12 +17,14 @@ const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'List';
 
 export default function BottomTabNavigator({ navigation, route }) {
+
+  const [isFilterVisible, toggleFilter] = useState(false);
+  const { currentDate } = useSelector(selectSettings);
+
   // Set the header title on the parent stack navigator depending on the
   // currently active tab. Learn more in the documentation:
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
-  navigation.setOptions({ headerTitle: getHeaderTitle(route) });
-
-  const [isFilterVisible, toggleFilter] = useState(false);
+  navigation.setOptions({ headerTitle: getHeaderTitle(route, currentDate) });
 
   return (
     <>
@@ -30,7 +37,7 @@ export default function BottomTabNavigator({ navigation, route }) {
       >
         <BottomTab.Screen
           name="List"
-          component={ItemsListScreen}          
+          component={ItemsListScreen}
           options={{
             title: 'List',
             tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-calendar" iconType="ion" />,
@@ -86,14 +93,15 @@ export default function BottomTabNavigator({ navigation, route }) {
   );
 }
 
-function getHeaderTitle(route) {
+function getHeaderTitle(route, currentDate) {
   const routeName = route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
-
+  const dateInRedux = moment(currentDate)
+  const dateFormatText = dateInRedux.format('MMM - YYYY')
   switch (routeName) {
-    case 'PrevMonth':
-      return 'Previous Month';
-    case 'AddNew':
-      return 'Add New Item';
+    case 'List': 
+      return `List (${dateFormatText})`;
+    case 'Summary': 
+      return `Summary (${dateFormatText})`;
     default:
       return routeName;
   }

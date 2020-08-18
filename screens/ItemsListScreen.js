@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
 
 import ItemList from '../components/ItemList'
@@ -7,21 +7,23 @@ import {
     selectCostItems,
     fetchCostItems
 } from "./../store/costItemsReducer";
+import {
+    selectSettings
+  } from './../store/settingsReducer'
 
-const ItemsListScreen = ({ route, navigation }) => {
+const ItemsListScreen = ({ navigation }) => {
 
-    const { costItems, loading, hasErrors } = useSelector(selectCostItems);
+    const { costItems } = useSelector(selectCostItems);
+    const { currentDate } = useSelector(selectSettings);    
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    useEffect(() => {        
         dispatch(fetchCostItems())
     }, [dispatch]);
 
-    console.log(route)
     return (
         <View style={styles.container} contentContainerStyle={styles.contentContainer}>
-            {loading && <Text>Loading posts...</Text>}
             <ItemList data={costItems} navigation={navigation} />
         </View>
     );
