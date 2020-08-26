@@ -7,7 +7,7 @@ import {
   selectSettings
 } from './../store/settingsReducer'
 import TabBarIcon from '../components/TabBarIcon';
-import TestScreen from '../screens/TestScreen';
+import ToolsScreen from '../screens/ToolsScreen';
 import ItemsListScreen from '../screens/ItemsListScreen';
 import AddNewScreen from '../screens/AddNewScreen';
 import SummaryScreen from '../screens/SummaryScreen';
@@ -80,11 +80,11 @@ export default function BottomTabNavigator({ navigation, route }) {
           }}
         />
         <BottomTab.Screen
-          name="Home"
-          component={TestScreen}
+          name="Tools"
+          component={ToolsScreen}
           options={{
-            title: 'Test',
-            tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="ios-beer" iconType="ion" />,
+            title: 'Tools',
+            tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="ios-settings" iconType="ion" />,
           }}
         />
       </BottomTab.Navigator>

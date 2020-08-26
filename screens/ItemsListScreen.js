@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 
 import ItemList from '../components/ItemList'
 import {
     selectCostItems,
-    fetchCostItems
+    fetchCostItems,
+    fetchCostItemsWithFilter
 } from "./../store/costItemsReducer";
 import {
     selectSettings
@@ -19,7 +21,8 @@ const ItemsListScreen = ({ navigation }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {        
-        dispatch(fetchCostItems())
+        const dateInRedux = moment(currentDate)
+        dispatch(fetchCostItemsWithFilter(dateInRedux.year(), dateInRedux.month() + 1))
     }, [dispatch]);
 
     return (
@@ -33,8 +36,7 @@ export default ItemsListScreen;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#96b6f2',
+        flex: 1
     },
     contentContainer: {
         paddingTop: 15,

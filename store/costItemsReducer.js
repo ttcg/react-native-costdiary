@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { costItemsService } from '../services'
+import { CostItemsService, CostItemsServiceApi } from '../services'
 import { showToast } from './toasterReducer'
 import { beginAjaxCall } from './spinnerReducer'
 
@@ -32,12 +32,11 @@ export const costItemsSlice = createSlice({
             state.submitting = true
             state.hasAdded = false
         },
-        addCostItemSuccess: (state, { payload }) => {
-            state.costItems = state.costItems.concat(payload)
+        addCostItemSuccess: state => {
             state.submitting = false
             state.hasErrors = false
             state.hasAdded = true
-        },        
+        },
         addCostItemFailure: state => {
             state.submitting = false
             state.hasErrors = true
@@ -52,8 +51,7 @@ export const costItemsSlice = createSlice({
         deleteCostItem: state => {
             state.submitting = true
         },
-        deleteCostItemSuccess: (state, { payload }) => {
-            state.costItems = state.costItems.filter(item => item.costItemId !== payload)
+        deleteCostItemSuccess: state => {
             state.hasSubmitted = true
             state.submitting = false
             state.hasErrors = false
@@ -72,11 +70,20 @@ export const costItemsSlice = createSlice({
             state.submitting = false
             state.hasErrors = false
             state.hasUpdated = true
-        },        
+        },
         editCostItemFailure: state => {
             state.submitting = false
             state.hasErrors = true
         },
+        costItemOperationSuccess: state => {
+            state.hasSubmitted = true
+            state.submitting = false
+            state.hasErrors = false
+        },
+        costItemOperationFailure: state => {
+            state.submitting = false
+            state.hasErrors = true
+        }
     }
 })
 
@@ -93,7 +100,9 @@ export const {
     deleteCostItemFailure,
     editCostItem,
     editCostItemSuccess,
-    editCostItemFailure
+    editCostItemFailure,
+    costItemOperationSuccess,
+    costItemOperationFailure
 } = costItemsSlice.actions;
 
 export const selectCostItems = state => state.costItems;
@@ -106,48 +115,67 @@ export const fetchCostItems = () => {
         dispatch(getCostItems())
 
         try {
-            const response = costItemsService.GetCostItems();
-            const data = response; //await response.json()
+            const response = CostItemsService.GetCostItems();
+            const data = response;
             setTimeout(function () {
                 dispatch(getCostItemsSuccess(data))
-            }, 1000);
+            }, 1);
         } catch (error) {
             dispatch(getCostItemsFailure())
         }
     }
 }
 
-export const triggerAddCostItem = (payload) => {
+export const fetchCostItemsWithFilter = (year, month) => {
     return async dispatch => {
+        dispatch(beginAjaxCall())
+
+        try {
+            const payload = {
+                params: { year, month }
+            }
+            const response = await CostItemsServiceApi.Filter(payload);
+            const data = response.data;
+            dispatch(getCostItemsSuccess(data))
+        } catch (error) {
+            console.error(error)
+            dispatch(getCostItemsFailure())
+        }
+    }
+}
+
+export const triggerAddCostItem = (payload) => {
+    return async (dispatch, getState) => {
         dispatch(beginAjaxCall())
         dispatch(addCostItem())
 
         try {
-            setTimeout(function () {
-                dispatch(addCostItemSuccess(payload))
-                dispatch(showToast('A new item has been added successfully'))
-            }, 1000);
-            
-            
+            await CostItemsServiceApi.Add(payload);
+
+            FetchItemsWithDateFromState(dispatch, getState);
+            dispatch(addCostItemSuccess());
+            dispatch(showToast('Item has been added successfully'))
+
         } catch (error) {
+            console.error(error)
             dispatch(addCostItemFailure())
         }
     }
 }
 
-export const triggerDeleteCostItem = (payload) => {
-    return async dispatch => {
+export const triggerDeleteCostItem = (id) => {
+    return async (dispatch, getState) => {
         dispatch(beginAjaxCall())
-        dispatch(deleteCostItem())
 
         try {
-            setTimeout(function () {
-                dispatch(deleteCostItemSuccess(payload))
-                dispatch(showToast('Item has been deleted successfully'))
-            }, 1000);
-            
-            
+            await CostItemsServiceApi.Delete(id);
+
+            FetchItemsWithDateFromState(dispatch, getState);
+            dispatch(deleteCostItemSuccess());
+            dispatch(showToast('Item has been deleted successfully'))
+
         } catch (error) {
+            console.error(error)
             dispatch(deleteCostItemFailure())
         }
     }
@@ -165,4 +193,27 @@ export const triggerEditCostItem = (payload) => {
             dispatch(editCostItemFailure())
         }
     }
+}
+
+export const triggerResetCostItemsData = () => {
+    return async (dispatch, getState) => {
+        dispatch(beginAjaxCall())
+
+        try {
+            await CostItemsServiceApi.Reset();
+
+            FetchItemsWithDateFromState(dispatch, getState);
+            dispatch(costItemOperationSuccess());
+            dispatch(showToast('Cost Items data is reset successfully'))
+
+        } catch (error) {
+            console.error(error)
+            dispatch(costItemOperationFailure())
+        }
+    }
+}
+
+const FetchItemsWithDateFromState = (dispatch, getState) => {
+    const { settings } = getState();
+    dispatch(fetchCostItemsWithFilter(settings.selectedYear, settings.selectedMonth + 1));
 }

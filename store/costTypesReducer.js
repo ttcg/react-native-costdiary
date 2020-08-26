@@ -1,24 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { CostTypesService } from '../services'
+import { CostTypesService, CostTypesServiceApi } from '../services'
+import { beginAjaxCall } from './spinnerReducer'
 
 export const costTypesSlice = createSlice({
     name: "costTypes",
     initialState: {
-        loading: false,
         hasErrors: false,
         costTypes: [],
     },
     reducers: {
-        getCostTypes: state => {
-            state.loading = true
-        },
         getCostTypesSuccess: (state, { payload }) => {
             state.costTypes = payload
-            state.loading = false
             state.hasErrors = false
         },
         getCostTypesFailure: state => {
-            state.loading = false
             state.hasErrors = true
         }
     }
@@ -36,11 +31,14 @@ export default costTypesSlice.reducer;
 
 export const fetchCostTypes = () => {
     return async dispatch => {
-        dispatch(getCostTypes())
+        dispatch(beginAjaxCall())
 
         try {
-            const response = CostTypesService.GetCostTypes();
-            const data = response; //await response.json()
+            //const response = CostTypesService.GetCostTypes();
+            //const data = response;
+
+            const response = await CostTypesServiceApi.GetAll();
+            const data = response.data
 
             dispatch(getCostTypesSuccess(data))
         } catch (error) {

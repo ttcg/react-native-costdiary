@@ -21,7 +21,6 @@ const FilterScreen = ({ toggleFilter, isVisible }) => {
   const onConfirm = () => {
 
     const dateInRedux = moment(currentDate)
-    const dateChosen = moment(selectedDate)
 
     // do not dispatch anything if the current and selected year / month are the same
     if (selectedDate === null || (dateInRedux.year() === selectedDate.year() &&

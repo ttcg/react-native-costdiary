@@ -96,7 +96,15 @@ const AddNewScreen = ({ navigation }) => {
                     values.costItemId = uuid()
                     values.costType = Enumerable.from(costTypes).single(x => x.costTypeId === values.costTypeId);
 
-                    console.log(values)
+                    //console.log(values)
+
+                    const payload = {
+                        "itemName": values.itemName,
+                        "costTypeId": values.costTypeId,
+                        "amount": values.amount,
+                        "dateUsed": values.dateUsed
+                    }
+
                     dispatch(triggerAddCostItem(values))
                     setSubmitting(false)
                 }}
