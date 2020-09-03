@@ -28,10 +28,6 @@ export const costItemsSlice = createSlice({
             state.loading = false
             state.hasErrors = true
         },
-        addCostItem: state => {
-            state.submitting = true
-            state.hasAdded = false
-        },
         addCostItemSuccess: state => {
             state.submitting = false
             state.hasErrors = false
@@ -48,30 +44,12 @@ export const costItemsSlice = createSlice({
             state.hasErrors = false
             state.submitting = false
         },
-        deleteCostItem: state => {
-            state.submitting = true
-        },
         deleteCostItemSuccess: state => {
             state.hasSubmitted = true
             state.submitting = false
             state.hasErrors = false
         },
         deleteCostItemFailure: state => {
-            state.submitting = false
-            state.hasErrors = true
-        },
-        editCostItem: state => {
-            state.submitting = true
-            state.hasUpdated = false
-        },
-        editCostItemSuccess: (state, { payload }) => {
-            var index = state.costItems.findIndex(p => p.costItemId == payload.costItemId)
-            state.costItems[index] = payload
-            state.submitting = false
-            state.hasErrors = false
-            state.hasUpdated = true
-        },
-        editCostItemFailure: state => {
             state.submitting = false
             state.hasErrors = true
         },
@@ -91,16 +69,11 @@ export const {
     getCostItems,
     getCostItemsSuccess,
     getCostItemsFailure,
-    addCostItem,
     addCostItemSuccess,
     addCostItemFailure,
     resetCostItemMaintenance,
-    deleteCostItem,
     deleteCostItemSuccess,
     deleteCostItemFailure,
-    editCostItem,
-    editCostItemSuccess,
-    editCostItemFailure,
     costItemOperationSuccess,
     costItemOperationFailure
 } = costItemsSlice.actions;
@@ -147,7 +120,6 @@ export const fetchCostItemsWithFilter = (year, month) => {
 export const triggerAddCostItem = (payload) => {
     return async (dispatch, getState) => {
         dispatch(beginAjaxCall())
-        dispatch(addCostItem())
 
         try {
             await CostItemsServiceApi.Add(payload);
@@ -181,16 +153,20 @@ export const triggerDeleteCostItem = (id) => {
     }
 }
 
-export const triggerEditCostItem = (payload) => {
-    return async dispatch => {
+export const triggerEditCostItem = (id, payload) => {
+    return async (dispatch, getState) => {
         dispatch(beginAjaxCall())
-        dispatch(editCostItem())
 
         try {
-            dispatch(editCostItemSuccess(payload))
+            await CostItemsServiceApi.Patch(id, payload);
+
+            FetchItemsWithDateFromState(dispatch, getState);
+            dispatch(costItemOperationSuccess());
             dispatch(showToast('Item has been edited successfully'))
+
         } catch (error) {
-            dispatch(editCostItemFailure())
+            console.error(error)
+            dispatch(costItemOperationFailure())
         }
     }
 }

@@ -1,7 +1,8 @@
 import axios from 'axios'
+import {baseUrl} from './serviceConstants'
 
 const apiClient = axios.create({
-    baseURL: 'https://costsdiaryapi.azurewebsites.net/api/costitems'
+    baseURL: `${baseUrl}costitems`
 })
 
 export default {
@@ -19,5 +20,8 @@ export default {
     },
     Add(payload) {
         return apiClient.post('/', payload)
+    },
+    Patch(id, payload) {
+        return apiClient.patch(`/${id}`, payload)
     },
 }

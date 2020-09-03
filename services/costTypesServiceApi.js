@@ -1,7 +1,8 @@
 import axios from 'axios'
+import {baseUrl} from './serviceConstants'
 
 const apiClient = axios.create({
-    baseURL: 'https://costsdiaryapi.azurewebsites.net/api/' + 'costtypes'
+    baseURL: `${baseUrl}costtypes`
 })
 
 export default {

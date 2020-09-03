@@ -10,6 +10,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import Enumerable from 'linq';
+import { createPatch } from 'rfc6902';
 
 import {
     selectCostTypes
@@ -25,7 +26,7 @@ const EditScreen = ({ navigation, route }) => {
     navigation.setOptions({ headerTitle: 'Edit Item Detail' });
 
     const { item } = route.params;
-    console.log(item)
+    //console.log(item)
 
     const dispatch = useDispatch();
 
@@ -49,7 +50,7 @@ const EditScreen = ({ navigation, route }) => {
     useEffect(() => {
         if (hasUpdated) {
             dispatch(resetCostItemMaintenance())
-            navigation.navigate('Root')
+            navigation.goBack();
         }
     }, [hasUpdated, navigation]);
 
@@ -94,10 +95,16 @@ const EditScreen = ({ navigation, route }) => {
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting }) => {
 
-                    values.costType = Enumerable.from(costTypes).single(x => x.costTypeId === values.costTypeId);
+                    const jsonPatch = createPatch(initialValues, values);
+                    console.log(jsonPatch)
 
-                    console.log(values)
-                    dispatch(triggerEditCostItem(values))
+                    if (Array.isArray(jsonPatch) && jsonPatch.length) {
+                        dispatch(triggerEditCostItem(values.costItemId, jsonPatch))
+                    }
+                    else {
+                        navigation.goBack();
+                    }
+                    
                     setSubmitting(false)
                 }}
             >
