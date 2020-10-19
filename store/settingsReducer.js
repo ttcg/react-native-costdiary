@@ -5,9 +5,7 @@ import { fetchCostItemsWithFilter } from './costItemsReducer'
 
 const currentDate = moment();
 const initState = {
-    currentDate: +currentDate,
-    selectedYear: currentDate.year(),
-    selectedMonth: currentDate.month()
+    currentDate: +currentDate
 }
 
 export const settingsSlice = createSlice({
@@ -15,7 +13,7 @@ export const settingsSlice = createSlice({
     initialState: initState,
     reducers: {
         setCurrentDate: (state, { payload }) => {
-            state = payload
+            state.currentDate = payload;
         }
     }
 })
@@ -31,12 +29,7 @@ export default settingsSlice.reducer;
 export const triggerSetCurrentDate = (unixDate) => {
     return async dispatch => {    
         const selectedDate = moment(unixDate)
-        const payload = {
-            currentDate: unixDate,
-            year: selectedDate.year(),
-            month: selectedDate.month()
-        }
-        dispatch(setCurrentDate(payload))        
+        dispatch(setCurrentDate(unixDate))        
         dispatch(fetchCostItemsWithFilter(selectedDate.year(), selectedDate.month() + 1))
     }
 }

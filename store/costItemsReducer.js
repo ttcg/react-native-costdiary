@@ -22,36 +22,15 @@ export const costItemsSlice = createSlice({
             state.costItems = payload
             state.loading = false
             state.hasErrors = false
-            state.hasAdded = false
         },
         getCostItemsFailure: state => {
             state.loading = false
             state.hasErrors = true
-        },
-        addCostItemSuccess: state => {
-            state.submitting = false
-            state.hasErrors = false
-            state.hasAdded = true
-        },
-        addCostItemFailure: state => {
-            state.submitting = false
-            state.hasErrors = true
-        },
+        },        
         resetCostItemMaintenance: state => {
-            state.hasAdded = false
-            state.hasUpdated = false
             state.hasSubmitted = false
             state.hasErrors = false
             state.submitting = false
-        },
-        deleteCostItemSuccess: state => {
-            state.hasSubmitted = true
-            state.submitting = false
-            state.hasErrors = false
-        },
-        deleteCostItemFailure: state => {
-            state.submitting = false
-            state.hasErrors = true
         },
         costItemOperationSuccess: state => {
             state.hasSubmitted = true
@@ -69,11 +48,7 @@ export const {
     getCostItems,
     getCostItemsSuccess,
     getCostItemsFailure,
-    addCostItemSuccess,
-    addCostItemFailure,
     resetCostItemMaintenance,
-    deleteCostItemSuccess,
-    deleteCostItemFailure,
     costItemOperationSuccess,
     costItemOperationFailure
 } = costItemsSlice.actions;
@@ -125,12 +100,12 @@ export const triggerAddCostItem = (payload) => {
             await CostItemsServiceApi.Add(payload);
 
             FetchItemsWithDateFromState(dispatch, getState);
-            dispatch(addCostItemSuccess());
+            dispatch(costItemOperationSuccess());
             dispatch(showToast('Item has been added successfully'))
 
         } catch (error) {
             console.error(error)
-            dispatch(addCostItemFailure())
+            dispatch(costItemOperationFailure())
         }
     }
 }
@@ -143,12 +118,12 @@ export const triggerDeleteCostItem = (id) => {
             await CostItemsServiceApi.Delete(id);
 
             FetchItemsWithDateFromState(dispatch, getState);
-            dispatch(deleteCostItemSuccess());
+            dispatch(costItemOperationSuccess());
             dispatch(showToast('Item has been deleted successfully'))
 
         } catch (error) {
             console.error(error)
-            dispatch(deleteCostItemFailure())
+            dispatch(costItemOperationFailure())
         }
     }
 }

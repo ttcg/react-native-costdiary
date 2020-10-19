@@ -30,7 +30,7 @@ const AddNewScreen = ({ navigation }) => {
     const dispatch = useDispatch();
 
     const { costTypes } = useSelector(selectCostTypes);
-    const { hasAdded } = useSelector(selectCostItems);
+    const { hasSubmitted } = useSelector(selectCostItems);
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -47,11 +47,11 @@ const AddNewScreen = ({ navigation }) => {
     );
 
     useEffect(() => {
-        if (hasAdded) {
+        if (hasSubmitted) {
             dispatch(resetCostItemMaintenance())
             navigation.navigate('Root')
         }
-    }, [hasAdded, navigation]);
+    }, [hasSubmitted, navigation]);
 
     const handleDateConfirm = (date, setFieldValue) => {
         hideDatePicker();
@@ -95,15 +95,6 @@ const AddNewScreen = ({ navigation }) => {
 
                     values.costItemId = uuid()
                     values.costType = Enumerable.from(costTypes).single(x => x.costTypeId === values.costTypeId);
-
-                    //console.log(values)
-
-                    const payload = {
-                        "itemName": values.itemName,
-                        "costTypeId": values.costTypeId,
-                        "amount": values.amount,
-                        "dateUsed": values.dateUsed
-                    }
 
                     dispatch(triggerAddCostItem(values))
                     setSubmitting(false)
