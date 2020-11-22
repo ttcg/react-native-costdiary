@@ -6,7 +6,6 @@ import moment from "moment";
 import ItemList from '../components/ItemList'
 import {
     selectCostItems,
-    fetchCostItems,
     fetchCostItemsWithFilter
 } from "./../store/costItemsReducer";
 import {

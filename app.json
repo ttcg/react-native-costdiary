@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "costdiary",
-    "slug": "costdiary",
+    "name": "expense diary",
+    "slug": "expense-diary",
     "platforms": [
       "ios",
       "android",
@@ -25,7 +25,7 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": "Learning React Native and developing a sample app to record monthly costs",
+    "description": "Learning React Native and developing a sample app to record monthly expenses",
     "githubUrl": "https://github.com/ttcg/react-native-costdiary"
   }
 }

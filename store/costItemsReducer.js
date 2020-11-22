@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { CostItemsService, CostItemsServiceApi } from '../services'
+import moment from "moment"
+import { CostItemsServiceApi } from '../services'
 import { showToast } from './toasterReducer'
 import { beginAjaxCall } from './spinnerReducer'
 
@@ -57,23 +58,6 @@ export const selectCostItems = state => state.costItems;
 
 export default costItemsSlice.reducer;
 
-export const fetchCostItems = () => {
-    return async dispatch => {
-        dispatch(beginAjaxCall())
-        dispatch(getCostItems())
-
-        try {
-            const response = CostItemsService.GetCostItems();
-            const data = response;
-            setTimeout(function () {
-                dispatch(getCostItemsSuccess(data))
-            }, 1);
-        } catch (error) {
-            dispatch(getCostItemsFailure())
-        }
-    }
-}
-
 export const fetchCostItemsWithFilter = (year, month) => {
     return async dispatch => {
         dispatch(beginAjaxCall())
@@ -82,6 +66,7 @@ export const fetchCostItemsWithFilter = (year, month) => {
             const payload = {
                 params: { year, month }
             }
+
             const response = await CostItemsServiceApi.Filter(payload);
             const data = response.data;
             dispatch(getCostItemsSuccess(data))
@@ -166,5 +151,6 @@ export const triggerResetCostItemsData = () => {
 
 const FetchItemsWithDateFromState = (dispatch, getState) => {
     const { settings } = getState();
-    dispatch(fetchCostItemsWithFilter(settings.selectedYear, settings.selectedMonth + 1));
+    const selectedDate = moment(settings.currentDate)
+    dispatch(fetchCostItemsWithFilter(selectedDate.year(), selectedDate.month() + 1));
 }
