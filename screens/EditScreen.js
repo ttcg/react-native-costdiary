@@ -1,16 +1,16 @@
 import { Foundation } from '@expo/vector-icons';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Modal, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Button, Input } from 'react-native-elements';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { TextField } from 'react-native-materialui-textfield';
-import { Dropdown } from 'react-native-material-dropdown';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { TextField } from 'rn-material-ui-textfield'
+import { Dropdown } from 'react-native-material-dropdown-v2';
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import Enumerable from 'linq';
 import { createPatch } from 'rfc6902';
+import Dates from 'react-native-dates';
 
 import {
     selectCostTypes
@@ -23,7 +23,9 @@ import {
 
 const EditScreen = ({ navigation, route }) => {
 
-    navigation.setOptions({ headerTitle: 'Edit Item Detail' });
+    React.useLayoutEffect(() => {
+        navigation.setOptions({ headerTitle: 'Edit Item Detail' });
+    }, [navigation]);
 
     const { item } = route.params;
     //console.log(item)
@@ -54,7 +56,8 @@ const EditScreen = ({ navigation, route }) => {
         }
     }, [hasUpdated, navigation]);
 
-    const handleDateConfirm = (date, setFieldValue) => {
+    const handleDateConfirm = ({ date }, setFieldValue) => {
+        console.log(date)
         hideDatePicker();
         setFieldValue('dateUsed', moment(date).format("YYYY-MM-DD"));
     };
@@ -135,23 +138,30 @@ const EditScreen = ({ navigation, route }) => {
                                 error={errors.amount}
                                 renderRightAccessory={() => renderRightIcon('pound')}
                             />
-                            <TextField
+                            <Input
                                 onChangeText={handleChange("dateUsed")}
                                 onBlur={handleBlur("dateUsed")}
-                                onFocus={showDatePicker}
-                                label='Date'
-                                baseColor='#000000'
                                 value={values.dateUsed}
+                                label='Date'
+                                labelStyle={{ fontWeight: "normal" }}
+                                errorStyle={{ color: 'red' }}
+                                errorMessage={errors.dateUsed}
+                                rightIcon={renderRightIcon('calendar')}
+                                onFocus={showDatePicker}
                                 keyboardType='decimal-pad'
-                                error={errors.dateUsed}
-                                renderRightAccessory={() => renderRightIcon('calendar')}
-                            />
-                            <DateTimePickerModal
-                                isVisible={isDatePickerVisible}
-                                mode="date"
-                                onConfirm={date => handleDateConfirm(date, setFieldValue)}
-                                onCancel={hideDatePicker}
-                            />
+                            />      
+                            <Modal
+                                transparent
+                                animationType="fade"
+                                visible={isDatePickerVisible}>
+                                <View style={styles.contentContainer}>
+                                    <Dates
+                                        date={values.dateUsed}
+                                        onDatesChange={date => handleDateConfirm(date, setFieldValue)}
+                                        isDateBlocked={() => false}
+                                    />
+                                </View>
+                            </Modal>
                             <Button
                                 title="Save"
                                 onPress={handleSubmit}
@@ -192,5 +202,11 @@ const styles = StyleSheet.create({
     },
     formContainer: {
         margin: 10
+    },
+    contentContainer: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.5)',
     }
 });

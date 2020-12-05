@@ -11,7 +11,7 @@ import {
   selectSettings
 } from './../store/settingsReducer'
 
-const FilterScreen = ({ toggleFilter, isVisible }) => {
+const FilterScreen = ({ toggleFilter, isVisible, getHeaderTitle, navigation, route }) => {
 
   const dispatch = useDispatch();
 
@@ -25,7 +25,7 @@ const FilterScreen = ({ toggleFilter, isVisible }) => {
     // do not dispatch anything if the current and selected year / month are the same
     if (selectedDate === null || (dateInRedux.year() === selectedDate.year() &&
       dateInRedux.month() === selectedDate.month())) {
-        console.log('nothing changed')
+      console.log('nothing changed')
       toggleFilter(false);
       return;
     }
@@ -33,6 +33,8 @@ const FilterScreen = ({ toggleFilter, isVisible }) => {
     let unixDate = moment(selectedDate).valueOf()
     dispatch(triggerSetCurrentDate(unixDate))
     toggleFilter(false);
+
+    navigation.setOptions({ headerTitle: getHeaderTitle(route, selectedDate) });
   }
 
   return (

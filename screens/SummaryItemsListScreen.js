@@ -7,7 +7,9 @@ const SummaryItemsListScreen = ({ route, navigation }) => {
 
     const { data, dataType } = route.params;
 
-    navigation.setOptions({ headerTitle: `Items for ${dataType}` });    
+    React.useLayoutEffect(() => {
+        navigation.setOptions({ headerTitle: `Items for ${dataType}` });    
+      }, [navigation]);
 
     return (
         <View style={styles.container} contentContainerStyle={styles.contentContainer}>

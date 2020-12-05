@@ -43,14 +43,7 @@ const SummaryScreen = ({ navigation }) => {
 			<Item title="TW Others" amount={getSubTotal('TW Others')} onPress={onPress} />
 			<Item title="AP" amount={getSubTotal('AP')} onPress={onPress} />
 			<Item title="Others" amount={getSubTotal('Others')} onPress={onPress} />
-			<ListItem
-				title="Total"
-				titleStyle={styles.totalStyle}
-				rightTitle={`£ ${getTotal().toFixed(2)}`}
-				rightTitleStyle={styles.totalStyle}
-				containerStyle={{ borderTopWidth: 6 }}
-				bottomDivider
-			/>
+			<TotalItem title="Total" amount={getTotal().toFixed(2)} />
 		</View>
 	);
 }
@@ -60,13 +53,32 @@ const Item = ({ title, amount, onPress }) => {
 		<TouchableOpacity
 			onPress={() => onPress(title)}
 		>
-			<ListItem
-				title={title}
-				rightTitle={`£ ${parseFloat(amount).toFixed(2)}`}
-				rightTitleStyle={styles.amountStyle}
-				bottomDivider
-			/>
+			<ListItem bottomDivider>
+                <ListItem.Content>
+                    <ListItem.Title>{title}</ListItem.Title>
+                </ListItem.Content>
+                <ListItem.Content right>
+                    <ListItem.Title right style={styles.amountStyle}>
+                        {`£ ${parseFloat(amount).toFixed(2)}`}
+                    </ListItem.Title>
+                </ListItem.Content>
+            </ListItem>
 		</TouchableOpacity>
+	);
+}
+
+const TotalItem = ({ title, amount }) => {
+	return (
+			<ListItem containerStyle={{ borderTopWidth: 6 }} bottomDivider>
+                <ListItem.Content>
+                    <ListItem.Title>{title}</ListItem.Title>
+                </ListItem.Content>
+                <ListItem.Content right>
+                    <ListItem.Title right style={styles.amountStyle}>
+                        {`£ ${parseFloat(amount).toFixed(2)}`}
+                    </ListItem.Title>
+                </ListItem.Content>
+            </ListItem>
 	);
 }
 

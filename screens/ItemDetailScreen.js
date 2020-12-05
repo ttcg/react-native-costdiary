@@ -13,6 +13,11 @@ import {
 } from './../store/costItemsReducer'
 
 const ItemDetailScreen = ({ route, navigation }) => {
+
+	React.useLayoutEffect(() => {
+        navigation.setOptions({ headerTitle: 'Item Detail' });
+	}, [navigation]);
+	
 	const { item } = route.params;
 
 	const dispatch = useDispatch();

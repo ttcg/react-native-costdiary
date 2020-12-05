@@ -24,25 +24,31 @@ const ItemList = ({ data, navigation }) => {
 
 const ListEmpty = () => {
     return (
-      <View style={styles.emptyListContainer}>
-        <Text h4>No items to display</Text>
-      </View>
+        <View style={styles.emptyListContainer}>
+            <Text h4>No items to display</Text>
+        </View>
     );
-  }
+}
 
 const Item = ({ item, onPress }) => {
     return (
         <TouchableOpacity
             onPress={() => onPress(item)}
         >
-            <ListItem
-                title={item.itemName}
-                subtitle={item.costType.costTypeName}
-                rightTitle={`£ ${parseFloat(item.amount).toFixed(2)}`}
-                rightTitleStyle={styles.amountStyle}
-                rightSubtitle={moment(item.dateUsed).format("MMM DD")}
-                bottomDivider
-            />
+            <ListItem bottomDivider>
+                <ListItem.Content>
+                    <ListItem.Title>{item.itemName}</ListItem.Title>
+                    <ListItem.Subtitle>{item.costType.costTypeName}</ListItem.Subtitle>
+                </ListItem.Content>
+                <ListItem.Content right>
+                    <ListItem.Title right style={styles.amountStyle}>
+                        {`£ ${parseFloat(item.amount).toFixed(2)}`}
+                    </ListItem.Title>
+                    <ListItem.Subtitle right>
+                        {moment(item.dateUsed).format("MMM DD")}
+                    </ListItem.Subtitle>
+                </ListItem.Content>
+            </ListItem>
         </TouchableOpacity>
     );
 }

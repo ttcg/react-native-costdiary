@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import { StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -11,11 +11,10 @@ import SummaryItemsListScreen from '../screens/SummaryItemsListScreen';
 
 const Stack = createStackNavigator();
 
-const Navigator = ({navigationState}) => {
-    const containerRef = useRef();
+const Navigator = () => {
 
     return (
-        <NavigationContainer ref={containerRef} initialState={navigationState}>
+        <NavigationContainer>
             <Stack.Navigator
                 screenOptions={{
                     headerStyle: styles.headerStyle,
@@ -23,11 +22,13 @@ const Navigator = ({navigationState}) => {
                 }}>
                 <Stack.Screen name="Root" component={BottomTabNavigator} />
                 <Stack.Screen name="ItemDetail" component={ItemDetailScreen} />
-                <Stack.Screen name="EditScreen" component={EditScreen} />
-                <Stack.Screen name="SummaryItemsListScreen" component={SummaryItemsListScreen} />
+                <Stack.Screen name="EditScreen" component={EditScreen} />                
                 <Stack.Screen name="AddNew" component={AddNewScreen} />
+                <Stack.Screen name="SummaryItemsListScreen" component={SummaryItemsListScreen} />
             </Stack.Navigator>
         </NavigationContainer>
+
+
     );
 }
 

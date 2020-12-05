@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useSelector } from "react-redux";
 import moment from 'moment'
@@ -21,10 +22,9 @@ export default function BottomTabNavigator({ navigation, route }) {
   const [isFilterVisible, toggleFilter] = useState(false);
   const { currentDate } = useSelector(selectSettings);
 
-  // Set the header title on the parent stack navigator depending on the
-  // currently active tab. Learn more in the documentation:
-  // https://reactnavigation.org/docs/en/screen-options-resolution.html
-  navigation.setOptions({ headerTitle: getHeaderTitle(route, currentDate) });
+  React.useLayoutEffect(() => {
+    navigation.setOptions({ headerTitle: getHeaderTitle(route, currentDate) });
+  }, [navigation, route]);
 
   return (
     <>
@@ -88,19 +88,25 @@ export default function BottomTabNavigator({ navigation, route }) {
           }}
         />
       </BottomTab.Navigator>
-      <FilterScreen isVisible={isFilterVisible} toggleFilter={toggleFilter} />
+      <FilterScreen 
+        isVisible={isFilterVisible} 
+        navigation={navigation} 
+        route={route}
+        toggleFilter={toggleFilter} 
+        getHeaderTitle={getHeaderTitle} />
     </>
   );
 }
 
-function getHeaderTitle(route, currentDate) {
-  const routeName = route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME;
+const getHeaderTitle = (route, currentDate) => {
+  console.log('currentDate: ', currentDate)
+  const routeName = getFocusedRouteNameFromRoute(route) ?? INITIAL_ROUTE_NAME;
   const dateInRedux = moment(currentDate)
   const dateFormatText = dateInRedux.format('MMM - YYYY')
   switch (routeName) {
-    case 'List': 
+    case 'List':
       return `List (${dateFormatText})`;
-    case 'Summary': 
+    case 'Summary':
       return `Summary (${dateFormatText})`;
     default:
       return routeName;

@@ -1,29 +1,17 @@
 {
+  "name": "costdiary",
+  "displayName": "costdiary",
   "expo": {
     "name": "expense diary",
     "slug": "expense-diary",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
     },
     "description": "Learning React Native and developing a sample app to record monthly expenses",
     "githubUrl": "https://github.com/ttcg/react-native-costdiary"
